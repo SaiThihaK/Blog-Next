@@ -1,5 +1,9 @@
-import Image from "next/image";
+import Home from "@/page-container/home";
+import { NextPage } from "next";
+import React from "react";
 
-export default function Home() {
-  return <div>Hello</div>;
-}
+const page: NextPage = () => {
+  return <Home />;
+};
+
+export default page;
