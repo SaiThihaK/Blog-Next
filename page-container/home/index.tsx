@@ -1,9 +1,6 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
 import React from "react";
 
-const Home = async () => {
-  const currentUser = await getCurrentUser();
-  console.log(currentUser);
+const Home = () => {
   return <div>index</div>;
 };
 
