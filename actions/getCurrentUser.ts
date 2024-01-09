@@ -1,7 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import prismadb from "@/lib/db";
 import { getServerSession } from "next-auth";
-import Email from "next-auth/providers/email";
 
 export const getSession = async () => {
   return await getServerSession(authOptions);
