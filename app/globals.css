@@ -4,8 +4,12 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: white;
+    --soft-background: #f0f0f0;
     --foreground: 222.2 84% 4.9%;
+
+    --text-color: black;
+    --soft-text-color: #626262;
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -68,9 +72,46 @@
  
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border box-border m-0 p-0;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden max-w-[100vw];
+  }
+  a {
+    @apply text-inherit;
+  }
+  .main-container {
+    @apply min-h-screen bg-background text-textColor;
+  }
+  .wrapper {
+    @apply max-w-[1536px] mx-auto px-[80px];
+  }
+}
+
+@media screen and (max-width: 1536px) {
+  .wrapper {
+    max-width: 1366px;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .wrapper {
+    max-width: 1024px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    max-width: 768px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .wrapper {
+    max-width: 640px;
+  }
+}
+@media screen and (max-width: 640px) {
+  .wrapper {
+    max-width: 475px;
   }
 }
