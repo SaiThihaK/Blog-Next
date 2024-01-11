@@ -1,4 +1,4 @@
-import Access from "@/page-container/access";
+import Access from "@/page-containers/access";
 import { NextPage } from "next";
 import React from "react";
 

@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import Home from "@/page-container/home";
+import Home from "@/page-containers/home";
 import { NextPage } from "next";
 import React from "react";
 
