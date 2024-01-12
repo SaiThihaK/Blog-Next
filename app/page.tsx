@@ -1,5 +1,11 @@
-import Image from "next/image";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import Home from "@/page-containers/home";
+import { NextPage } from "next";
+import React from "react";
 
-export default function Home() {
-  return <div>Hello</div>;
-}
+const page = async () => {
+  const currentUser = await getCurrentUser();
+  return <Home />;
+};
+
+export default page;

@@ -1,5 +1,4 @@
 import GoogleProvider from "next-auth/providers/google";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import { AuthOptions } from "next-auth";
 import prismadb from "@/lib/db";
 
