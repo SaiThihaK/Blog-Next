@@ -9,26 +9,28 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  GoogleLoginButton,
-  GithubLoginButton,
-} from "react-social-login-buttons";
+import { GoogleLoginButton } from "react-social-login-buttons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useLogin } from "@/services/auth";
 
 const loginFormSchema = z.object({
+  name: z.string(),
   email: z.string().email(),
-  password: z.string().min(8, { message: "Password is too short!" }),
+  password: z
+    .string()
+    .min(8, { message: "password should be minimum 8 characters" }),
 });
 
 const Login = () => {
   const session = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+  const { trigger: login } = useLogin();
 
   useEffect(() => {
     if (session.status === "authenticated") router.push("/");
@@ -46,15 +48,14 @@ const Login = () => {
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
   });
 
   const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
-    console.log("form values", values);
-    form.reset();
+    login(values, {
+      onSuccess: () => {
+        router.push("/");
+      },
+    });
   };
 
   return (
@@ -68,12 +69,25 @@ const Login = () => {
           >
             <FormField
               control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>User Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Please enter user name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Please enter your email" {...field} />
+                    <Input placeholder="Please enter  email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -86,10 +100,7 @@ const Login = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Please enter your password"
-                      {...field}
-                    />
+                    <Input placeholder="Please enter  password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -114,9 +125,9 @@ const Login = () => {
         >
           Continue With Google
         </GoogleLoginButton>
-        <GithubLoginButton className="auth-btn">
+        {/* <GithubLoginButton className="auth-btn">
           Continue With Github
-        </GithubLoginButton>
+        </GithubLoginButton> */}
       </div>
     </div>
   );
