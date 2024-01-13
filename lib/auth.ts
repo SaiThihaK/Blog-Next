@@ -23,33 +23,33 @@ export const authOptions: AuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
-    // CredentialsProvider({
-    //   name: "Credentials",
-    //   credentials: {
-    //     name: { type: "text" },
-    //     email: { type: "email" },
-    //     password: { type: "password" },
-    //   },
-    //   async authorize(credentials) {
-    //     const { email, password } = RegisterUserSchema.parse(credentials);
-    //     const user = await prismadb.user.findUnique({
-    //       where: {
-    //         email: email,
-    //       },
-    //     });
-    //     if (!user) return null;
-    //     if (user.password) {
-    //       const isPasswordValid = await bcrypt.compare(
-    //         password,
-    //         user.password as string
-    //       );
-    //       if (!isPasswordValid) {
-    //         return null;
-    //       }
-    //     }
-    //     return user;
-    //   },
-    // }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        name: { type: "text" },
+        email: { type: "email" },
+        password: { type: "password" },
+      },
+      async authorize(credentials) {
+        const { email, password } = RegisterUserSchema.parse(credentials);
+        const user = await prismadb.user.findUnique({
+          where: {
+            email: email,
+          },
+        });
+        if (!user) return null;
+        if (user.password) {
+          const isPasswordValid = await bcrypt.compare(
+            password,
+            user.password as string
+          );
+          if (!isPasswordValid) {
+            return null;
+          }
+        }
+        return user;
+      },
+    }),
   ],
   // debug: process.env.NODE_ENV === "development",
   secret: process.env.NEXTAUTH_SECRET,
