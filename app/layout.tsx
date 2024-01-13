@@ -1,12 +1,12 @@
 import "./globals.css";
-import { EdgeStoreProvider } from "@/lib/edgestore";
-import AuthProvider from "@/providers/AuthProvider";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/shared/navbar";
 import Footer from "@/components/shared/footer";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { User } from "@/types/users";
+import Provider from "@/providers/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,17 +24,15 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <EdgeStoreProvider>
-            <div className="main-container">
-              <div className="wrapper">
-                <Navbar user={user as User} />
-                {children}
-                <Footer />
-              </div>
+        <Provider>
+          <div className="main-container">
+            <div className="wrapper">
+              <Navbar user={user as User} />
+              {children}
+              <Footer />
             </div>
-          </EdgeStoreProvider>
-        </AuthProvider>
+          </div>
+        </Provider>
       </body>
     </html>
   );
