@@ -89,6 +89,7 @@
   .wrapper {
     @apply max-w-[1536px] mx-auto px-[80px];
   }
+
 }
 
 @media screen and (max-width: 1536px) {
@@ -142,4 +143,15 @@
 }
 .flex-8 {
   flex: 8;
+}
+.auth-btn div div {
+    font-size: 14px !important;
+    width: auto !important;
+}
+.auth-btn div {
+    justify-content: center !important;
+    gap: 4px !important;
+}
+.auth-btn {
+    height: 44px !important;
 }
