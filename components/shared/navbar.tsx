@@ -1,10 +1,14 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import AuthLinks from './authLinks';
-import HamburgerMenu from './hamburgerMenu';
+import { User } from "@/types/users";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import AuthLinks from "./authLinks";
+import HamburgerMenu from "./hamburgerMenu";
 
-const Navbar = () => {
+type NavbarProps = {
+  user: User;
+};
+const Navbar: React.FC<NavbarProps> = ({ user }) => {
   return (
     <nav className="flex justify-between items-center h-[100px]">
       <div className="gap-3 flex-1 hidden lg:flex">
@@ -25,7 +29,7 @@ const Navbar = () => {
         <Link href="/">Home</Link>
         <Link href="/">Contact</Link>
         <Link href="/">About</Link>
-        <AuthLinks />
+        <AuthLinks user={user} />
       </div>
       <HamburgerMenu />
     </nav>

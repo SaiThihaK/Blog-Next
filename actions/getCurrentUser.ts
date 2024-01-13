@@ -17,7 +17,9 @@ export const getCurrentUser = async () => {
       },
     });
     if (!currentUser) return null;
-    return currentUser;
+    return {
+      ...currentUser,
+    };
   } catch (error) {
     return null;
   }
