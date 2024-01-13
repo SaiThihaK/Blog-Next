@@ -3,8 +3,8 @@ import { EdgeStoreProvider } from '@/lib/edgestore';
 import AuthProvider from '@/providers/AuthProvider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Navbar from '@/page-containers/shared/navbar';
-import Footer from '@/page-containers/shared/footer';
+import Navbar from '@/components/shared/navbar';
+import Footer from '@/components/shared/footer';
 
 const inter = Inter({ subsets: ['latin'] });
 

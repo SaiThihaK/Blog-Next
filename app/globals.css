@@ -9,7 +9,7 @@
     --foreground: 222.2 84% 4.9%;
 
     --text-color: black;
-    --soft-text-color: #626262;
+    --soft-text-color: #334155;
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -80,12 +80,16 @@
   a {
     @apply text-inherit;
   }
+  h1 {
+    @apply font-bold text-lg md:text-xl lg:text-2xl;
+  }
   .main-container {
     @apply min-h-screen bg-background text-textColor;
   }
   .wrapper {
     @apply max-w-[1536px] mx-auto px-[80px];
   }
+
 }
 
 @media screen and (max-width: 1536px) {
@@ -114,4 +118,40 @@
   .wrapper {
     max-width: 475px;
   }
+}
+
+.flex-2 {
+  flex: 2;
+}
+.flex-3 {
+  flex: 3;
+}
+.flex-3 {
+  flex: 3;
+}
+.flex-4 {
+  flex: 4;
+}
+.flex-5 {
+  flex: 5;
+}
+.flex-6 {
+  flex: 6;
+}
+.flex-7 {
+  flex: 7;
+}
+.flex-8 {
+  flex: 8;
+}
+.auth-btn div div {
+    font-size: 14px !important;
+    width: auto !important;
+}
+.auth-btn div {
+    justify-content: center !important;
+    gap: 4px !important;
+}
+.auth-btn {
+    height: 44px !important;
 }

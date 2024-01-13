@@ -26,6 +26,7 @@ const config: Config = {
       },
       colors: {
         textColor: 'var(--text-color)',
+        textSoftColor: 'var(--soft-text-color)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
