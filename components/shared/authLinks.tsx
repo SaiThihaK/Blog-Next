@@ -5,7 +5,7 @@ import { User } from "@/types/users";
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 
 type AuthLinksProps = {
   user: User;
@@ -23,10 +23,12 @@ const AuthLinks: React.FC<AuthLinksProps> = ({ user }) => {
       ) : (
         <>
           <Link href="/write">Write</Link>
-          <Avatar>
-            <AvatarImage src={user?.image as string} />
-            <AvatarFallback>{user?.name[0] as string}</AvatarFallback>
-          </Avatar>
+          <Link href={"/setting"}>
+            <Avatar>
+              <AvatarImage src={user?.image as string} />
+              <AvatarFallback>{user?.name[0] as string}</AvatarFallback>
+            </Avatar>
+          </Link>
         </>
       )}
     </>
