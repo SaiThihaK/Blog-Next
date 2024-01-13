@@ -14,12 +14,8 @@ const PaginationButtons = () => {
     <div>
       <Pagination>
         <PaginationContent className="justify-between w-full">
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
+          <PaginationPrevious href="#" />
+          <PaginationNext href="#" />
         </PaginationContent>
       </Pagination>
     </div>
