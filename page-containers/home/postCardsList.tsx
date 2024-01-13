@@ -1,5 +1,6 @@
 import React from 'react';
 import PostCard from './postCard';
+import PaginationButtons from './paginationButtons';
 
 const PostCardsList = () => {
   return (
@@ -10,6 +11,7 @@ const PostCardsList = () => {
         <PostCard />
         <PostCard />
       </div>
+      <PaginationButtons />
     </div>
   );
 };
