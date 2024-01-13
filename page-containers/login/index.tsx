@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import {
   GoogleLoginButton,
@@ -106,6 +106,7 @@ const Login = () => {
           <div className="h-[0.8px] flex-1 bg-slate-400"></div>
         </div>
         <GoogleLoginButton
+          disabled={loading}
           onClick={() => {
             socialAction("google");
           }}
