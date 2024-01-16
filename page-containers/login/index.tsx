@@ -1,5 +1,5 @@
-"use client";
-import { Button } from "@/components/ui/button";
+'use client';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -7,22 +7,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import React, { useEffect, useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import React, { useEffect, useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   GoogleLoginButton,
   GithubLoginButton,
-} from "react-social-login-buttons";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+} from 'react-social-login-buttons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const loginFormSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8, { message: "Password is too short!" }),
+  password: z.string().min(8, { message: 'Password is too short!' }),
 });
 
 const Login = () => {
@@ -31,7 +31,7 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (session.status === "authenticated") router.push("/");
+    if (session.status === 'authenticated') router.push('/');
   }, [session.status, router]);
 
   const socialAction = (action: string) => {
@@ -39,7 +39,7 @@ const Login = () => {
     signIn(action, { redirect: false })
       .then((callback) => {
         if (callback?.error) return;
-        if (callback?.ok) return router.push("/");
+        if (callback?.ok) return router.push('/');
       })
       .finally(() => setLoading(false));
   };
@@ -47,13 +47,13 @@ const Login = () => {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
   const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
-    console.log("form values", values);
+    console.log('form values', values);
     form.reset();
   };
 
@@ -108,7 +108,7 @@ const Login = () => {
         <GoogleLoginButton
           disabled={loading}
           onClick={() => {
-            socialAction("google");
+            socialAction('google');
           }}
           className="auth-btn"
         >
