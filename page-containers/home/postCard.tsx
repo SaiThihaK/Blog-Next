@@ -14,7 +14,7 @@ const PostCard = () => {
           <span>-</span>
           <span className="text-red-700 font-medium">CULTURE</span>
         </div>
-        <Link href="/">
+        <Link href="/test">
           <h1>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</h1>
         </Link>
         <p className="text-sm md:text-base font-normal text-textSoftColor">
