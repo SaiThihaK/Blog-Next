@@ -17,6 +17,7 @@ import * as z from "zod";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useLogin } from "@/services/auth";
+import appAxios from "@/lib/appAxios";
 
 const loginFormSchema = z.object({
   name: z.string(),
@@ -30,7 +31,7 @@ const Login = () => {
   const session = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { trigger: login } = useLogin();
+  const { trigger: register } = useLogin();
 
   useEffect(() => {
     if (session.status === "authenticated") router.push("/");
@@ -50,11 +51,25 @@ const Login = () => {
     resolver: zodResolver(loginFormSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
-    login(values, {
-      onSuccess: () => {
-        router.push("/");
+  const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        name: "name",
+        email: "email@gmail.com",
+        password: "aaa12345",
+      }),
+    });
+    const data = await res.json();
+    if (!data.user) return null;
+    await signIn("credentials", {
+      name: "name",
+      email: "email@gmail.com",
+      password: "aaa12345",
+      callbackUrl: "/",
     });
   };
 

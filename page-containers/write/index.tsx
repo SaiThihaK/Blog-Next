@@ -1,17 +1,19 @@
-'use client';
-import React, { useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
-import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import 'react-quill/dist/quill.bubble.css';
-import { ReactQuillProps } from 'react-quill';
+"use client";
+import React, { useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import "react-quill/dist/quill.bubble.css";
+import { ReactQuillProps } from "react-quill";
+import { createBlog } from "@/actions/blogAction";
+import { Input } from "@/components/ui/input";
 
 // const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const ReactQuill = dynamic(
   async () => {
-    const { default: RQ } = await import('react-quill');
+    const { default: RQ } = await import("react-quill");
     const QuillComponent = ({
       forwardedRef,
       ...props
@@ -25,13 +27,14 @@ const ReactQuill = dynamic(
 
 const PostWrite = () => {
   const [showAddBtns, setShowAddBtns] = useState(false);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const quillRef = useRef<any>();
+  const [title, setTitle] = useState<string>("");
 
   const handleAddImageQuill = async () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
     input.click();
 
     input.onchange = async () => {
@@ -46,8 +49,7 @@ const PostWrite = () => {
       if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
-          console.log(range);
-          quillObj.editor.insertEmbed(range.index, 'image', e.target?.result); // Replace with secure image url from api response
+          quillObj.editor.insertEmbed(range?.index, "image", e.target?.result); // Replace with secure image url from api response
         };
         fileReader.readAsDataURL(file);
       }
@@ -55,8 +57,10 @@ const PostWrite = () => {
   };
   return (
     <div className="flex flex-col md:px-[50px] lg:px-[100px] xl:px-[140px] h-[700px] relative">
-      <input
+      <Input
         type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
         placeholder="Title"
         className="py-[36px] pr-[100px] text-5xl placeholder:text-[#b3b3b1] bg-transparent border-0 outline-0 ring-0 focus:outline-none focus:ring-0 font-bold"
       />
@@ -69,8 +73,8 @@ const PostWrite = () => {
             width={20}
             height={20}
             className={cn(
-              'transition-all',
-              showAddBtns ? 'rotate-45' : 'rotate-0'
+              "transition-all",
+              showAddBtns ? "rotate-45" : "rotate-0"
             )}
           />
         </button>
@@ -103,7 +107,13 @@ const PostWrite = () => {
           placeholder="Tell about your story..."
         />
       </div>
-      <Button variant="success" className="absolute top-[44px] right-0">
+      <Button
+        variant="success"
+        className="absolute top-[44px] right-0"
+        onClick={() => {
+          createBlog(title, quillRef, "/image", "technology");
+        }}
+      >
         Publish
       </Button>
     </div>

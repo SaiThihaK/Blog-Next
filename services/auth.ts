@@ -10,6 +10,6 @@ type SignInArg = {
   };
 };
 export const useLogin = () =>
-  useSWRMutation(`/api/login`, (url, { arg }: SignInArg) => {
+  useSWRMutation(`/api/register`, (url, { arg }: SignInArg) => {
     return appAxios.post<User>(url, arg);
   });
