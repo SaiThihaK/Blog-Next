@@ -24,3 +24,8 @@ export const useGetBlogBySlug = (): SWRResponse => {
 export const useGetSingleBlog = (id: string): SWRResponse => {
   return useSWR(`/api/blogs/${id}`);
 };
+
+export const useDeleteBlog = (id: string) =>
+  useSWRMutation(`/api/blogs/${id}`, (url) => {
+    return appAxios.delete(url);
+  });
