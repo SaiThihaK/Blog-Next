@@ -5,13 +5,15 @@ import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import 'react-quill/dist/quill.bubble.css';
-import { ReactQuillProps } from 'react-quill';
+import { ReactQuillProps, Quill } from 'react-quill';
+import ImageResize from 'quill-image-resize-module-react';
 
-// const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+Quill.register('modules/imageResize', ImageResize);
 
 const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import('react-quill');
+
     const QuillComponent = ({
       forwardedRef,
       ...props
@@ -22,6 +24,13 @@ const ReactQuill = dynamic(
   },
   { ssr: false }
 );
+
+const quillModules = {
+  imageResize: {
+    parchment: Quill.import('parchment'),
+    modules: ['Resize', 'DisplaySize'],
+  },
+};
 
 const PostWrite = () => {
   const [showAddBtns, setShowAddBtns] = useState(false);
@@ -38,8 +47,6 @@ const PostWrite = () => {
       const file = input?.files ? input.files[0] : null;
 
       const quillObj = quillRef?.current?.getEditor();
-      // const unprivilegedEditor =
-      // quillRef?.current?.makeUnprivilegedEditor(quillObj);
       const range = quillRef?.current?.getEditorSelection();
 
       //! Just for dev purpose, have to use image upload request to the api service and insert the secure image url
@@ -109,6 +116,7 @@ const PostWrite = () => {
           value={text}
           onChange={setText}
           placeholder="Tell about your story..."
+          modules={quillModules}
         />
       </div>
     </div>
