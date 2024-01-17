@@ -8,6 +8,7 @@ import "react-quill/dist/quill.bubble.css";
 import { ReactQuillProps, Quill } from "react-quill";
 import ImageResize from "quill-image-resize-module-react";
 import { Input } from "@/components/ui/input";
+import { useCreateBlogs } from "@/services/blog";
 
 Quill.register("modules/imageResize", ImageResize);
 
@@ -33,10 +34,12 @@ const quillModules = {
   },
 };
 
-const PostWrite = () => {
-  const [showAddBtns, setShowAddBtns] = useState(false);
-  const [text, setText] = useState("");
+const PostWrite: React.FC = () => {
+  const { trigger: createBlog } = useCreateBlogs();
+  const [showAddBtns, setShowAddBtns] = useState<boolean>(false);
+  const [text, setText] = useState<string>("");
   const quillRef = useRef<any>();
+  const [title, setTitle] = useState<string>("");
 
   const handleAddImageQuill = async () => {
     const input = document.createElement("input");
@@ -54,7 +57,6 @@ const PostWrite = () => {
       if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
-          console.log(range);
           quillObj.editor.insertEmbed(range.index, "image", e.target?.result); // Replace with secure image url from api response
           quillObj.editor.insertEmbed(
             range.index + 1,
@@ -70,6 +72,8 @@ const PostWrite = () => {
     <div className="flex flex-col md:px-[50px] lg:px-[100px] xl:px-[140px] relative">
       <div className="flex items-center gap-5">
         <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           type="text"
           placeholder="Title"
           className="py-[36px] flex-1 w-full text-3xl md:text-5xl placeholder:text-[#b3b3b1] bg-transparent border-0 outline-0 ring-0 focus:outline-none focus:ring-0 font-bold"

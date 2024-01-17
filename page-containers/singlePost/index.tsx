@@ -1,9 +1,16 @@
-import Image from 'next/image';
-import React from 'react';
-import Menu from '../home/menu';
-import Comments from '@/components/shared/comments';
+"use client";
+
+import Image from "next/image";
+import React from "react";
+import Menu from "../home/menu";
+import Comments from "@/components/shared/comments";
+import { useGetSingleBlog } from "@/services/blog";
+import { useParams } from "next/navigation";
 
 const SinglePost = () => {
+  const { id } = useParams();
+  const { data: blog } = useGetSingleBlog(id as string);
+
   return (
     <div className="mt-[30px]">
       <div className="flex items-center gap-[50px]">
