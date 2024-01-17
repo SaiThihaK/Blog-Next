@@ -5,15 +5,16 @@ import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import "react-quill/dist/quill.bubble.css";
-import { ReactQuillProps } from "react-quill";
-import { createBlog } from "@/actions/blogAction";
+import { ReactQuillProps, Quill } from "react-quill";
+import ImageResize from "quill-image-resize-module-react";
 import { Input } from "@/components/ui/input";
 
-// const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+Quill.register("modules/imageResize", ImageResize);
 
 const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
+
     const QuillComponent = ({
       forwardedRef,
       ...props
@@ -25,11 +26,17 @@ const ReactQuill = dynamic(
   { ssr: false }
 );
 
+const quillModules = {
+  imageResize: {
+    parchment: Quill.import("parchment"),
+    modules: ["Resize", "DisplaySize"],
+  },
+};
+
 const PostWrite = () => {
   const [showAddBtns, setShowAddBtns] = useState(false);
   const [text, setText] = useState("");
   const quillRef = useRef<any>();
-  const [title, setTitle] = useState<string>("");
 
   const handleAddImageQuill = async () => {
     const input = document.createElement("input");
@@ -41,33 +48,38 @@ const PostWrite = () => {
       const file = input?.files ? input.files[0] : null;
 
       const quillObj = quillRef?.current?.getEditor();
-      const unprivilegedEditor =
-        quillRef?.current?.makeUnprivilegedEditor(quillObj);
-      const range = unprivilegedEditor?.getSelection();
+      const range = quillRef?.current?.getEditorSelection();
 
       //! Just for dev purpose, have to use image upload request to the api service and insert the secure image url
       if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
-          quillObj.editor.insertEmbed(range?.index, "image", e.target?.result); // Replace with secure image url from api response
+          console.log(range);
+          quillObj.editor.insertEmbed(range.index, "image", e.target?.result); // Replace with secure image url from api response
+          quillObj.editor.insertEmbed(
+            range.index + 1,
+            "block",
+            "<p><br /></p>"
+          );
         };
         fileReader.readAsDataURL(file);
       }
     };
   };
   return (
-    <div className="flex flex-col md:px-[50px] lg:px-[100px] xl:px-[140px] h-[700px] relative">
-      <Input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-        className="py-[36px] pr-[100px] text-5xl placeholder:text-[#b3b3b1] bg-transparent border-0 outline-0 ring-0 focus:outline-none focus:ring-0 font-bold"
-      />
-      <div className="flex items-start gap-[20px] h-[700px] relative">
+    <div className="flex flex-col md:px-[50px] lg:px-[100px] xl:px-[140px] relative">
+      <div className="flex items-center gap-5">
+        <Input
+          type="text"
+          placeholder="Title"
+          className="py-[36px] flex-1 w-full text-3xl md:text-5xl placeholder:text-[#b3b3b1] bg-transparent border-0 outline-0 ring-0 focus:outline-none focus:ring-0 font-bold"
+        />
+        <Button variant="success">Publish</Button>
+      </div>
+      <div className="flex items-start gap-[20px] min-h-[700px] relative">
         <button
           onClick={() => setShowAddBtns(!showAddBtns)}
-          className="min-w-[36px] h-[36px] rounded-full bg-transparent border-textColor border-[1px] flex items-center justify-center cursor-pointer"
+          className="min-w-[36px] h-[36px] rounded-full bg-white border-textColor border-[1px] flex items-center justify-center cursor-pointer"
         >
           <Plus
             width={20}
@@ -81,15 +93,15 @@ const PostWrite = () => {
         {showAddBtns && (
           <div className="flex items-center gap-[14px] z-20 absolute left-[50px]">
             <button
-              className="w-[36px] h-[36px] rounded-full bg-transparent border-green-600 border-[1px] flex items-center justify-center cursor-pointer"
+              className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer"
               onClick={handleAddImageQuill}
             >
               <ImageIcon width={20} height={20} className="text-green-600" />
             </button>
-            <button className="w-[36px] h-[36px] rounded-full bg-transparent border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
+            <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
               <Video width={20} height={20} className="text-green-600" />
             </button>
-            <button className="w-[36px] h-[36px] rounded-full bg-transparent border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
+            <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
               <ArrowUpFromLine
                 width={20}
                 height={20}
@@ -105,17 +117,9 @@ const PostWrite = () => {
           value={text}
           onChange={setText}
           placeholder="Tell about your story..."
+          modules={quillModules}
         />
       </div>
-      <Button
-        variant="success"
-        className="absolute top-[44px] right-0"
-        onClick={() => {
-          createBlog(title, quillRef, "/image", "technology");
-        }}
-      >
-        Publish
-      </Button>
     </div>
   );
 };
