@@ -13,9 +13,6 @@ type AuthLinksProps = {
 
 const AuthLinks: React.FC<AuthLinksProps> = ({ user }) => {
   const { status } = useSession();
-
-  console.log(user);
-
   return (
     <>
       {status === "unauthenticated" ? (
