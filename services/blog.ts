@@ -7,7 +7,7 @@ type createBlogArg = {
   arg: {
     title: string;
     email: string;
-    desc: string;
+    desc: any;
     image: string;
     category: string;
   };
