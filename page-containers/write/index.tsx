@@ -1,18 +1,19 @@
-'use client';
-import React, { useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
-import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import 'react-quill/dist/quill.bubble.css';
-import { ReactQuillProps, Quill } from 'react-quill';
-import ImageResize from 'quill-image-resize-module-react';
+"use client";
+import React, { useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import "react-quill/dist/quill.bubble.css";
+import { ReactQuillProps, Quill } from "react-quill";
+import ImageResize from "quill-image-resize-module-react";
+import { Input } from "@/components/ui/input";
 
-Quill.register('modules/imageResize', ImageResize);
+Quill.register("modules/imageResize", ImageResize);
 
 const ReactQuill = dynamic(
   async () => {
-    const { default: RQ } = await import('react-quill');
+    const { default: RQ } = await import("react-quill");
 
     const QuillComponent = ({
       forwardedRef,
@@ -27,20 +28,20 @@ const ReactQuill = dynamic(
 
 const quillModules = {
   imageResize: {
-    parchment: Quill.import('parchment'),
-    modules: ['Resize', 'DisplaySize'],
+    parchment: Quill.import("parchment"),
+    modules: ["Resize", "DisplaySize"],
   },
 };
 
 const PostWrite = () => {
   const [showAddBtns, setShowAddBtns] = useState(false);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const quillRef = useRef<any>();
 
   const handleAddImageQuill = async () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
     input.click();
 
     input.onchange = async () => {
@@ -54,11 +55,11 @@ const PostWrite = () => {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
           console.log(range);
-          quillObj.editor.insertEmbed(range.index, 'image', e.target?.result); // Replace with secure image url from api response
+          quillObj.editor.insertEmbed(range.index, "image", e.target?.result); // Replace with secure image url from api response
           quillObj.editor.insertEmbed(
             range.index + 1,
-            'block',
-            '<p><br /></p>'
+            "block",
+            "<p><br /></p>"
           );
         };
         fileReader.readAsDataURL(file);
@@ -68,7 +69,7 @@ const PostWrite = () => {
   return (
     <div className="flex flex-col md:px-[50px] lg:px-[100px] xl:px-[140px] relative">
       <div className="flex items-center gap-5">
-        <input
+        <Input
           type="text"
           placeholder="Title"
           className="py-[36px] flex-1 w-full text-3xl md:text-5xl placeholder:text-[#b3b3b1] bg-transparent border-0 outline-0 ring-0 focus:outline-none focus:ring-0 font-bold"
@@ -84,8 +85,8 @@ const PostWrite = () => {
             width={20}
             height={20}
             className={cn(
-              'transition-all',
-              showAddBtns ? 'rotate-45' : 'rotate-0'
+              "transition-all",
+              showAddBtns ? "rotate-45" : "rotate-0"
             )}
           />
         </button>

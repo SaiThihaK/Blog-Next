@@ -1,14 +1,14 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { NextPage } from "next";
-import Link from "next/link";
+import { signOut } from "next-auth/react";
 import React from "react";
 
 const page: NextPage = () => {
   return (
     <>
-      <Link href={"/api/auth/signout"}>
-        <Button>Logout</Button>
-      </Link>
+      <Button onClick={() => signOut()}>Logout</Button>
     </>
   );
 };

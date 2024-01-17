@@ -1,20 +1,19 @@
 import prismadb from "@/lib/db";
 import { revalidatePath } from "next/cache";
 
-export const createBlog = async (formData: FormData) => {
-  const title = formData.get("title") as string;
-  const desc = formData.get("desc") as string;
-  const image = formData.get("image") as string;
-  const userEmail = formData.get("userEmail") as string;
-  const category = formData.get("category") as string;
-
+export const createBlog = async (
+  title: string,
+  desc: any,
+  image: string,
+  category: string
+) => {
   await prismadb.blog.create({
     data: {
-      title: title,
-      desc: desc,
-      image: image,
-      userEmail: userEmail,
-      category: category,
+      title: "title",
+      desc: "hello",
+      image: "/image",
+      userEmail: "user email",
+      category: "technology",
     },
   });
 

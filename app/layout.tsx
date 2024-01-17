@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/shared/navbar";
 import Footer from "@/components/shared/footer";
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/actions/userAction";
 import { User } from "@/types/users";
 import Provider from "@/providers/Provider";
 
