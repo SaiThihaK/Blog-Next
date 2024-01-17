@@ -1,6 +1,7 @@
 import appAxios from "@/lib/appAxios";
-import { User } from "@/types/users";
+import { SWRResponse } from "swr";
 import useSWRMutation from "swr/mutation";
+import useSWR from "swr";
 
 type createBlogArg = {
   arg: {
@@ -15,3 +16,11 @@ export const useCreateBlogs = () =>
   useSWRMutation(`/api/blogs`, (url, { arg }: createBlogArg) => {
     return appAxios.post(url, arg);
   });
+
+export const useGetBlogBySlug = (): SWRResponse => {
+  return useSWR(`/api/blogs`);
+};
+
+export const useGetSingleBlog = (id: string): SWRResponse => {
+  return useSWR(`/api/blogs/${id}`);
+};
