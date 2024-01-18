@@ -1,7 +1,7 @@
-import appAxios from "@/lib/appAxios";
-import { SWRResponse } from "swr";
-import useSWRMutation from "swr/mutation";
-import useSWR from "swr";
+import appAxios from '@/lib/appAxios';
+import { SWRResponse } from 'swr';
+import useSWRMutation from 'swr/mutation';
+import useSWR from 'swr';
 
 type createBlogArg = {
   arg: {

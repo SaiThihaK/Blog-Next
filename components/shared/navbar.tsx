@@ -1,9 +1,9 @@
-import { User } from "@/types/users";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import AuthLinks from "./authLinks";
-import HamburgerMenu from "./hamburgerMenu";
+import { User } from '@/types/users';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import AuthLinks from './authLinks';
+import HamburgerMenu from './hamburgerMenu';
 
 type NavbarProps = {
   user: User;
@@ -27,8 +27,8 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
       </div>
       <div className="gap-3 lg:gap-5 hidden sm:flex justify-end items-center flex-1 text-base lg:text-lg">
         <Link href="/">Home</Link>
+        <Link href="/blogs">Blogs</Link>
         <Link href="/">Contact</Link>
-        <Link href="/">About</Link>
         <AuthLinks user={user} />
       </div>
       <HamburgerMenu />
