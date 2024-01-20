@@ -3,7 +3,6 @@ import "../globals.css";
 import type { Metadata } from "next";
 import Navbar from "@/components/shared/navbar";
 import Footer from "@/components/shared/footer";
-import Provider from "@/providers/Provider";
 
 export const metadata: Metadata = {
   title: "Blog App",
