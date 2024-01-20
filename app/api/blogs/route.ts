@@ -21,14 +21,12 @@ export const GET = async () => {
 
 export const POST = async (request: Request) => {
   try {
-    const { title, desc, image, category, email, categoryId } =
-      await request.json();
+    const { title, desc, image, email, categoryId } = await request.json();
     await prismadb.blog.create({
       data: {
         title,
         desc,
         image,
-        category,
         categoryId,
         userEmail: email,
       },
