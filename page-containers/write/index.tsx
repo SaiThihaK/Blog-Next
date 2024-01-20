@@ -1,23 +1,32 @@
-"use client";
-import React, { useRef, useState } from "react";
-import dynamic from "next/dynamic";
-import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import "react-quill/dist/quill.bubble.css";
-import { ReactQuillProps, Quill } from "react-quill";
-import ImageResize from "quill-image-resize-module-react";
-import { Input } from "@/components/ui/input";
-import { useCreateBlogs } from "@/services/blog";
-import { SingleImageDropzone } from "@/components/ui/imageDropZone";
-import { Label } from "@/components/ui/label";
-import { useEdgeStore } from "@/lib/edgestore";
+'use client';
+import React, { useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { ReactQuillProps, Quill } from 'react-quill';
+import ImageResize from 'quill-image-resize-module-react';
+import { Input } from '@/components/ui/input';
+import { useCreateBlogs } from '@/services/blog';
+import { SingleImageDropzone } from '@/components/ui/imageDropZone';
+import { useEdgeStore } from '@/lib/edgestore';
+import 'react-quill/dist/quill.bubble.css';
 
-Quill.register("modules/imageResize", ImageResize);
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+  SelectContent,
+} from '@/components/ui/select';
+import { useGetCategory } from '@/services/category';
+import { GetAllCateogriesResponse } from '@/types/category';
+
+Quill.register('modules/imageResize', ImageResize);
 
 const ReactQuill = dynamic(
   async () => {
-    const { default: RQ } = await import("react-quill");
+    const { default: RQ } = await import('react-quill');
 
     const QuillComponent = ({
       forwardedRef,
@@ -32,24 +41,26 @@ const ReactQuill = dynamic(
 
 const quillModules = {
   imageResize: {
-    parchment: Quill.import("parchment"),
-    modules: ["Resize", "DisplaySize"],
+    parchment: Quill.import('parchment'),
+    modules: ['Resize', 'DisplaySize'],
   },
 };
 
 const PostWrite: React.FC = () => {
   const { trigger: createBlog } = useCreateBlogs();
+  const { data, isLoading, error } = useGetCategory<GetAllCateogriesResponse>();
   const { edgestore } = useEdgeStore();
   const [showAddBtns, setShowAddBtns] = useState<boolean>(false);
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const quillRef = useRef<any>();
-  const [title, setTitle] = useState<string>("");
+  const [title, setTitle] = useState<string>('');
   const [imageFile, setImageFile] = useState<File>();
 
   const handleAddImageQuill = async () => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
     input.click();
 
     input.onchange = async () => {
@@ -62,11 +73,15 @@ const PostWrite: React.FC = () => {
       if (file) {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
-          quillObj.editor.insertEmbed(range.index, "image", e.target?.result); // Replace with secure image url from api response
+          quillObj.editor.insertEmbed(
+            range.index ?? 0,
+            'image',
+            e.target?.result
+          ); // Replace with secure image url from api response
           quillObj.editor.insertEmbed(
             range.index + 1,
-            "block",
-            "<p><br /></p>"
+            'block',
+            '<p><br /></p>'
           );
         };
         fileReader.readAsDataURL(file);
@@ -86,10 +101,10 @@ const PostWrite: React.FC = () => {
 
       await createBlog({
         title,
-        email: "email@email.com",
+        email: 'email@email.com',
         desc: quillRef?.current?.value,
         image: res.url,
-        category: "technology",
+        category: selectedCategory,
       });
     }
   };
@@ -110,49 +125,73 @@ const PostWrite: React.FC = () => {
       <div className="w-full flex px-2 relative">
         <SingleImageDropzone
           className="md:mx-0 mx-auto"
-          width={300}
-          height={200}
+          width={'100%'}
+          height={250}
           value={imageFile}
           onChange={(file) => {
             setImageFile(file);
           }}
         />
       </div>
-
-      <div className="flex items-start gap-[20px] min-h-[700px] relative">
-        <button
-          onClick={() => setShowAddBtns(!showAddBtns)}
-          className="min-w-[36px] h-[36px] rounded-full bg-white border-textColor border-[1px] flex items-center justify-center cursor-pointer"
-        >
-          <Plus
-            width={20}
-            height={20}
-            className={cn(
-              "transition-all",
-              showAddBtns ? "rotate-45" : "rotate-0"
-            )}
-          />
-        </button>
-        {showAddBtns && (
-          <div className="flex items-center gap-[14px] z-20 absolute left-[50px]">
-            <button
-              className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer"
-              onClick={handleAddImageQuill}
-            >
-              <ImageIcon width={20} height={20} className="text-green-600" />
-            </button>
-            <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
-              <Video width={20} height={20} className="text-green-600" />
-            </button>
-            <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
-              <ArrowUpFromLine
-                width={20}
-                height={20}
-                className="text-green-600"
-              />
-            </button>
-          </div>
-        )}
+      <div className="flex gap-[10px] items-center">
+        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue
+              placeholder="Choose your category"
+              className="capitalize"
+            />
+          </SelectTrigger>
+          <SelectContent>
+            {data?.data.map((c) => {
+              return (
+                <SelectItem
+                  key={c.id}
+                  value={c.category}
+                  className="capitalize"
+                >
+                  {c.category}
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+        <div className="relative">
+          <button
+            onClick={() => setShowAddBtns(!showAddBtns)}
+            className="min-w-[36px] h-[36px] rounded-full bg-white border-textColor border-[1px] flex items-center justify-center cursor-pointer"
+          >
+            <Plus
+              width={20}
+              height={20}
+              className={cn(
+                'transition-all',
+                showAddBtns ? 'rotate-45' : 'rotate-0'
+              )}
+            />
+          </button>
+          {showAddBtns && (
+            <div className="flex items-center gap-[10px] z-20 absolute left-[50px] top-0">
+              <button
+                className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer"
+                onClick={handleAddImageQuill}
+              >
+                <ImageIcon width={20} height={20} className="text-green-600" />
+              </button>
+              <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
+                <Video width={20} height={20} className="text-green-600" />
+              </button>
+              <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
+                <ArrowUpFromLine
+                  width={20}
+                  height={20}
+                  className="text-green-600"
+                />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="flex items-start gap-[10px] min-h-[600px] relative">
         <ReactQuill
           forwardedRef={quillRef}
           className="w-full"
