@@ -86,7 +86,12 @@
   .main-container {
     @apply min-h-screen bg-background text-textColor;
   }
+  .desc-container > h2 {
+      @apply font-bold text-base md:text-lg lg:text-xl;
+  }
+  
 }
+
 
 .wrapper {
   max-width: 1536px;

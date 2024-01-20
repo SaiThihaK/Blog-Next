@@ -102,14 +102,22 @@ const PostWrite: React.FC = () => {
       await createBlog({
         title,
         email: 'email@email.com',
-        desc: quillRef?.current?.value,
+        desc: text,
         image: res.url,
-        category: selectedCategory,
+        categoryId: selectedCategory,
       });
+      console.log(
+        'write post submit === ',
+        text,
+        selectedCategory,
+        title,
+        res.url
+      );
     }
   };
+
   return (
-    <div className="flex w-full flex-col flex-wrap gap-y-5 md:px-[50px] lg:px-[100px] xl:px-[140px] relative">
+    <div className="flex w-full flex-col flex-wrap gap-y-5 px-8 relative">
       <div className="flex items-center flex-wrap">
         <Input
           value={title}
@@ -133,65 +141,71 @@ const PostWrite: React.FC = () => {
           }}
         />
       </div>
-      <div className="flex gap-[10px] items-center">
+      <div className="flex gap-[10px] items-start">
         <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue
-              placeholder="Choose your category"
-              className="capitalize"
-            />
-          </SelectTrigger>
+          <div className="flex flex-col gap-1">
+            <label>Category </label>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue
+                placeholder="Choose your category"
+                className="capitalize"
+              />
+            </SelectTrigger>
+          </div>
           <SelectContent>
             {data?.data.map((c) => {
               return (
-                <SelectItem
-                  key={c.id}
-                  value={c.category}
-                  className="capitalize"
-                >
+                <SelectItem key={c.id} value={c.id} className="capitalize">
                   {c.category}
                 </SelectItem>
               );
             })}
           </SelectContent>
         </Select>
-        <div className="relative">
-          <button
-            onClick={() => setShowAddBtns(!showAddBtns)}
-            className="min-w-[36px] h-[36px] rounded-full bg-white border-textColor border-[1px] flex items-center justify-center cursor-pointer"
-          >
-            <Plus
-              width={20}
-              height={20}
-              className={cn(
-                'transition-all',
-                showAddBtns ? 'rotate-45' : 'rotate-0'
-              )}
-            />
-          </button>
-          {showAddBtns && (
-            <div className="flex items-center gap-[10px] z-20 absolute left-[50px] top-0">
-              <button
-                className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer"
-                onClick={handleAddImageQuill}
-              >
-                <ImageIcon width={20} height={20} className="text-green-600" />
-              </button>
-              <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
-                <Video width={20} height={20} className="text-green-600" />
-              </button>
-              <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
-                <ArrowUpFromLine
-                  width={20}
-                  height={20}
-                  className="text-green-600"
-                />
-              </button>
-            </div>
-          )}
+        <div className="flex flex-col gap-1 lg:flex-1">
+          <label>Youtube Link</label>
+          <Input
+            placeholder="Please enter youtube link"
+            className="border-[1px]"
+          />
         </div>
       </div>
-      <div className="flex items-start gap-[10px] min-h-[600px] relative">
+      <div className="relative">
+        <button
+          onClick={() => setShowAddBtns(!showAddBtns)}
+          className="min-w-[36px] h-[36px] rounded-full bg-white border-textColor border-[1px] flex items-center justify-center cursor-pointer"
+        >
+          <Plus
+            width={20}
+            height={20}
+            className={cn(
+              'transition-all',
+              showAddBtns ? 'rotate-45' : 'rotate-0'
+            )}
+          />
+        </button>
+        {showAddBtns && (
+          <div className="flex items-center gap-[10px] z-20 absolute left-[50px] top-0">
+            <button
+              className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer"
+              onClick={handleAddImageQuill}
+            >
+              <ImageIcon width={20} height={20} className="text-green-600" />
+            </button>
+            <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
+              <Video width={20} height={20} className="text-green-600" />
+            </button>
+            <button className="w-[36px] h-[36px] rounded-full bg-white border-green-600 border-[1px] flex items-center justify-center cursor-pointer">
+              <ArrowUpFromLine
+                width={20}
+                height={20}
+                className="text-green-600"
+              />
+            </button>
+          </div>
+        )}
+      </div>
+      <div className="flex items-start gap-[10px] -mt-2 min-h-[600px] relative">
         <ReactQuill
           forwardedRef={quillRef}
           className="w-full"
@@ -205,4 +219,5 @@ const PostWrite: React.FC = () => {
     </div>
   );
 };
+
 export default PostWrite;

@@ -9,7 +9,7 @@ type createBlogArg = {
     email: string;
     desc: any;
     image: string;
-    category: string;
+    categoryId: string;
   };
 };
 export const useCreateBlogs = () =>
@@ -17,11 +17,13 @@ export const useCreateBlogs = () =>
     return appAxios.post(url, arg);
   });
 
-export const useGetBlogBySlug = (): SWRResponse => {
+export const useGetBlogs = <ApiResponse>(): SWRResponse<ApiResponse, any> => {
   return useSWR(`/api/blogs`);
 };
 
-export const useGetSingleBlog = (id: string): SWRResponse => {
+export const useGetSingleBlog = <ApiResponse>(
+  id: string
+): SWRResponse<ApiResponse, any> => {
   return useSWR(`/api/blogs/${id}`);
 };
 
