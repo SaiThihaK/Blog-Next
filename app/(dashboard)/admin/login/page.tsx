@@ -2,8 +2,8 @@ import Login from "@/page-containers/login";
 import { NextPage } from "next";
 import React from "react";
 
-const Page: NextPage = () => {
+const page: NextPage = () => {
   return <Login />;
 };
 
-export default Page;
+export default page;

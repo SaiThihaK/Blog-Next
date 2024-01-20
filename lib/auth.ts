@@ -16,7 +16,7 @@ const RegisterUserSchema = z.object({
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prismadb) as Adapter,
   pages: {
-    signIn: "/login",
+    signIn: "/admin/login",
   },
   providers: [
     GoogleProvider({
@@ -25,7 +25,6 @@ export const authOptions: AuthOptions = {
     }),
     CredentialsProvider({
       credentials: {
-        name: { type: "text" },
         email: { type: "email" },
         password: { type: "password" },
       },
@@ -52,20 +51,20 @@ export const authOptions: AuthOptions = {
   ],
   // debug: process.env.NODE_ENV === "development",
   secret: process.env.NEXTAUTH_SECRET,
-  // callbacks: {
-  //   session({ session, token }) {
-  //     session.user = token.id;
-  //     return session;
-  //   },
-  //   jwt({ token, account, user }) {
-  //     if (account) {
-  //       token.accessToken = account.access_token;
-  //       token.id = user.id;
-  //     }
-  //     return token;
-  //   },
-  // },
-  // session: {
-  //   strategy: "jwt",
-  // },
+  callbacks: {
+    session({ session, token }) {
+      session.user = token.id;
+      return session;
+    },
+    jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.access_token;
+        token.id = user.id;
+      }
+      return token;
+    },
+  },
+  session: {
+    strategy: "jwt",
+  },
 };
