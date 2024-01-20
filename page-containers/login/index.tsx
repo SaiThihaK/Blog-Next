@@ -28,13 +28,8 @@ const loginFormSchema = z.object({
 });
 
 const Login: React.FC = () => {
-  const session = useSession();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-
-  useEffect(() => {
-    if (session.status === "authenticated") router.push("/");
-  }, [session.status, router]);
 
   const socialAction = (action: string) => {
     setLoading(true);
