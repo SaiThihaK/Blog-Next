@@ -14,10 +14,8 @@ import { useForm } from "react-hook-form";
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useLogin } from "@/services/auth";
-import appAxios from "@/lib/appAxios";
 
 const loginFormSchema = z.object({
   name: z.string(),
