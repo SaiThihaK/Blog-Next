@@ -1,5 +1,5 @@
 "use client";
-import "../globals.css";
+
 import React from "react";
 import {
   UploadOutlined,
@@ -12,14 +12,17 @@ import { useSession } from "next-auth/react";
 const { Header, Content, Footer, Sider } = Layout;
 
 const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  UserOutlined,
-].map((icon, index) => ({
+  {
+    icon: UserOutlined,
+    label: "Home",
+  },
+  { icon: VideoCameraOutlined, label: "Blog" },
+  { icon: UploadOutlined, label: "Category" },
+  { icon: UserOutlined, label: "Log out" },
+].map((el, index) => ({
   key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
+  icon: React.createElement(el.icon),
+  label: el.label,
 }));
 
 type RootLayoutProps = {
@@ -27,7 +30,7 @@ type RootLayoutProps = {
 };
 const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { borderRadiusLG },
   } = theme.useToken();
   const { status } = useSession();
 
@@ -36,31 +39,27 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
       {status === "authenticated" ? (
         <Layout>
           <Sider
+            className="bg-white h-full"
             breakpoint="lg"
             collapsedWidth="0"
-            onBreakpoint={(broken) => {
-              console.log(broken);
-            }}
-            onCollapse={(collapsed, type) => {
-              console.log(collapsed, type);
-            }}
+            // onBreakpoint={(broken) => {}}
+            // onCollapse={(collapsed, type) => {}}
           >
+            <Header style={{ padding: 0 }} className="bg-white" />
             <div className="demo-logo-vertical" />
             <Menu
-              theme="dark"
               mode="inline"
-              defaultSelectedKeys={["4"]}
+              defaultSelectedKeys={["1"]}
+              defaultActiveFirst={true}
               items={items}
             />
           </Sider>
           <Layout>
-            <Header style={{ padding: 0, background: colorBgContainer }} />
+            <Header style={{ padding: 0 }} className="bg-white" />
             <Content style={{ margin: "24px 16px 0" }}>
               <div
+                className="h-[80dvh] overflow-y-scroll w-full p-4 md:p-0"
                 style={{
-                  padding: 24,
-                  minHeight: 360,
-                  background: colorBgContainer,
                   borderRadius: borderRadiusLG,
                 }}
               >
@@ -68,12 +67,13 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
               </div>
             </Content>
             <Footer style={{ textAlign: "center" }}>
-              Ant Design ©{new Date().getFullYear()} Created by Ant UED
+              <strong>THE DEV</strong> ©{new Date().getFullYear()} Created by
+              Revenuelab
             </Footer>
           </Layout>
         </Layout>
       ) : (
-        children
+        <>{children}</>
       )}
     </>
   );
