@@ -1,6 +1,13 @@
 import Blogs from '@/page-containers/blogs';
-import { NextPage } from 'next';
+import { Metadata, NextPage } from 'next';
 import React from 'react';
+
+export const metadata: Metadata = {
+  title: 'Blogs',
+  openGraph: {
+    title: 'Blogs',
+  },
+};
 
 const Page: NextPage = () => {
   return <Blogs />;
