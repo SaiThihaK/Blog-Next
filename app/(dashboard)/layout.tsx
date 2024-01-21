@@ -7,64 +7,76 @@ import {
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
+import { useSession } from "next-auth/react";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  UserOutlined,
-].map((icon, index) => ({
+  {
+    icon: UserOutlined,
+    label: "Home",
+  },
+  { icon: VideoCameraOutlined, label: "Blog" },
+  { icon: UploadOutlined, label: "Category" },
+  { icon: UserOutlined, label: "Log out" },
+].map((el, index) => ({
   key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
+  icon: React.createElement(el.icon),
+  label: el.label,
 }));
 
-const Rootlayout: React.FC = () => {
+type RootLayoutProps = {
+  children: React.ReactNode;
+};
+const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { borderRadiusLG },
   } = theme.useToken();
+  const { status } = useSession();
 
   return (
-    <Layout>
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
-      >
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["4"]}
-          items={items}
-        />
-      </Sider>
-      <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: "24px 16px 0" }}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
+    <>
+      {status === "authenticated" ? (
+        <Layout>
+          <Sider
+            className="bg-white h-full"
+            breakpoint="lg"
+            collapsedWidth="0"
+            // onBreakpoint={(broken) => {}}
+            // onCollapse={(collapsed, type) => {}}
           >
-            content
-          </div>
-        </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
-      </Layout>
-    </Layout>
+            <Header style={{ padding: 0 }} className="bg-white" />
+            <div className="demo-logo-vertical" />
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={["1"]}
+              defaultActiveFirst={true}
+              items={items}
+            />
+          </Sider>
+          <Layout>
+            <Header className="bg-white" />
+            <Content className="m-9 lg:m-4">
+              <div
+                className="h-[80dvh] overflow-y-scroll w-full"
+
+                style={{
+                  borderRadius: borderRadiusLG,
+                }}
+              >
+                {children}
+              </div>
+            </Content>
+            <Footer style={{ textAlign: "center" }}>
+              <strong>THE DEV</strong> ©{new Date().getFullYear()} Created by
+              Revenuelab
+            </Footer>
+          </Layout>
+        </Layout>
+      ) : (
+        <>{children}</>
+      )}
+    </>
   );
 };
 

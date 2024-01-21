@@ -6,9 +6,9 @@ import { Adapter } from "next-auth/adapters";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { NextResponse } from "next/server";
 
 const RegisterUserSchema = z.object({
-  name: z.string(),
   email: z.string().email(),
   password: z.string().min(8, "password should be minimum 8 characters"),
 });
@@ -42,7 +42,7 @@ export const authOptions: AuthOptions = {
             user.password as string
           );
           if (!isPasswordValid) {
-            return null;
+            throw new Error("Incorrect Password");
           }
         }
         return user;
@@ -52,14 +52,23 @@ export const authOptions: AuthOptions = {
   // debug: process.env.NODE_ENV === "development",
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    session({ session, token }) {
-      session.user = token.id;
-      return session;
+    session({ session, token, user }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          name: token.name,
+        },
+      };
     },
-    jwt({ token, account, user }) {
-      if (account) {
-        token.accessToken = account.access_token;
-        token.id = user.id;
+    jwt({ token, user, session }) {
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+          name: user.name,
+        };
       }
       return token;
     },
