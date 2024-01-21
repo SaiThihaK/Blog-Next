@@ -66,9 +66,7 @@ const SinglePost = () => {
                 className="desc-container leading-7"
                 dangerouslySetInnerHTML={{ __html: blog?.data.desc! }}
               ></div>
-              <div>
-                <Comments />
-              </div>
+              <div>{/* <Comments /> */}</div>
             </div>
             <Menu />
           </div>

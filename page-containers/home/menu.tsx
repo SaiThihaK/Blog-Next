@@ -5,11 +5,11 @@ import React from 'react';
 const Menu = () => {
   return (
     <div className="hidden lg:block flex-2 mt-[70px]">
-      <h2 className="text-slate-600 text-sm lg:text-base font-medium">
+      {/* <h2 className="text-slate-600 text-sm lg:text-base font-medium">
         {"What's hot?"}
       </h2>
       <h1 className="text-base lg:text-lg">Most Popular</h1>
-      <MenuPosts withImages={false} />
+      <MenuPosts withImages={false} /> */}
       <h2 className="text-slate-600 text-sm lg:text-base font-medium">
         Discover by topics
       </h2>

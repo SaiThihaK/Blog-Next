@@ -10,7 +10,7 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   const response = await fetch(
-    `http://localhost:3000/api/blogs/${params.id}`
+    `${process.env.DOMAIN_URL}/api/blogs/${params.id}`
   ).then((res) => res.json());
   const blogData = response.data;
   return {
