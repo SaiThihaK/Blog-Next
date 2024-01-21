@@ -3,7 +3,11 @@ import { NextResponse } from "next/server";
 
 export const GET = async () => {
   try {
-    const allBlogs = await prismadb.blog.findMany();
+    const allBlogs = await prismadb.blog.findMany({
+      include: {
+        category: true,
+      },
+    });
     return NextResponse.json({
       message: "Fetch all blogs successfully",
       data: allBlogs,

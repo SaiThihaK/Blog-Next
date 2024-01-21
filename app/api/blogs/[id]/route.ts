@@ -40,3 +40,30 @@ export const GET = async (
     });
   }
 };
+
+export const DELETE = async (
+  request: Request,
+  { params }: { params: RequestParams }
+) => {
+  try {
+    const id = params.id;
+    const deleteBlog = await prismadb.blog.delete({
+      where: {
+        id,
+      },
+    });
+    if (deleteBlog)
+      return NextResponse.json({
+        message: "blog delete Successfull",
+        data: null,
+        success: true,
+      });
+  } catch (error) {
+    console.error("delete failed:", error);
+    return NextResponse.json({
+      message: "blog Delete Failed",
+      data: null,
+      success: false,
+    });
+  }
+};

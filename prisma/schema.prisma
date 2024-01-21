@@ -75,5 +75,12 @@ model Category {
   id        String   @id @default(cuid()) @map("_id")
   createdAt DateTime @default(now())
   category  String   @unique
-  Blog      Blog[]
+  blog      Blog[]
+}
+
+model SocialMedia {
+  id         String   @id @default(cuid()) @map("_id")
+  createdAt  DateTime @default(now())
+  socialLink String
+  type       String   @unique
 }
