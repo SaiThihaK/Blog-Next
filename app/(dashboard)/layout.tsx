@@ -55,10 +55,11 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
             />
           </Sider>
           <Layout>
-            <Header style={{ padding: 0 }} className="bg-white" />
-            <Content style={{ margin: "24px 16px 0" }}>
+            <Header className="bg-white" />
+            <Content className="m-9 lg:m-4">
               <div
-                className="h-[80dvh] overflow-y-scroll w-full p-4 md:p-0"
+                className="h-[80dvh] overflow-y-scroll w-full"
+
                 style={{
                   borderRadius: borderRadiusLG,
                 }}
