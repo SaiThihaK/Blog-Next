@@ -43,6 +43,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  password      String
   accounts      Account[]
   sessions      Session[]
   Blog          Blog[]
@@ -57,14 +58,29 @@ model VerificationToken {
 }
 
 model Blog {
+  id         String   @id @default(cuid()) @map("_id")
+  createdAt  DateTime @default(now())
+  title      String
+  desc       String
+  image      String?
+  category   Category @relation(fields: [categoryId], references: [id])
+  userEmail  String
+  categoryId String
+  feature    Boolean  @default(false)
+  topPost    Boolean  @default(false)
+  user       User     @relation(fields: [userEmail], references: [email])
+}
+
+model Category {
   id        String   @id @default(cuid()) @map("_id")
   createdAt DateTime @default(now())
-  title     String
-  desc      String
-  image     String?
-  category  String
-  userEmail String
-  feature   Boolean  @default(false)
-  topPost   Boolean  @default(false)
-  user      User     @relation(fields: [userEmail], references: [email])
+  category  String   @unique
+  blog      Blog[]
+}
+
+model SocialMedia {
+  id         String   @id @default(cuid()) @map("_id")
+  createdAt  DateTime @default(now())
+  socialLink String
+  type       String   @unique
 }

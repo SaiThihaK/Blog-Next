@@ -1,8 +1,25 @@
+import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-const PostCard = () => {
+interface Props {
+  id: string;
+  title: string;
+  coverImage: string;
+  date: string;
+  category: string;
+  desc: string;
+}
+
+const PostCard: React.FC<Props> = ({
+  id,
+  title,
+  coverImage,
+  date,
+  category,
+  desc,
+}) => {
   return (
     <div className="mb-[50px] flex items-center gap-[50px]">
       <div className="flex-1 h-[350px] relative hidden lg:block">
@@ -10,19 +27,17 @@ const PostCard = () => {
       </div>
       <div className="flex-1 flex flex-col gap-[20px]">
         <div className="flex gap-2">
-          <span className="text-slate-600">11.02.2024</span>
+          <span className="text-slate-600">{formatDate(date)}</span>
           <span>-</span>
           <span className="text-red-700 font-medium">CULTURE</span>
         </div>
-        <Link href="/">
-          <h1>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</h1>
+        <Link href={`/blogs/${id}`}>
+          <h1>{title}</h1>
         </Link>
-        <p className="text-sm md:text-base font-normal text-textSoftColor">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae
-          voluptate, ipsa possimus tempore doloremque reiciendis ducimus nisi!
-          Natus animi non, repellendus quidem quae quibusdam commodi cum hic
-          nobis impedit enim?...
-        </p>
+        <div
+          className="text-sm md:text-base font-normal text-textSoftColor"
+          dangerouslySetInnerHTML={{ __html: `${desc.substring(0, 240)}...` }}
+        />
         <Link href="/" className="border-b-[1px] border-b-red-700 py-1 w-max">
           Read More
         </Link>

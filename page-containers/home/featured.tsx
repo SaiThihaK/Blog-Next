@@ -5,7 +5,7 @@ import React from 'react';
 const Featured = () => {
   return (
     <div className="mt-[30px]">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
+      <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl">
         <b className="font-bold">Hey, next dev here! </b>
         <b className="font-normal">Discover my stories and creative ideas.</b>
       </h1>
