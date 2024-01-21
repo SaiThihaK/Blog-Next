@@ -5,4 +5,4 @@ const page: NextPage = () => {
   return <div>NextPage</div>;
 };
 
-export default NextPage;
+export default page;
