@@ -59,6 +59,7 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
             <Content className="m-9 lg:m-4">
               <div
                 className="h-[80dvh] overflow-y-scroll w-full"
+
                 style={{
                   borderRadius: borderRadiusLG,
                 }}
