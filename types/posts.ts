@@ -1,4 +1,6 @@
 import { User } from '@/types/users';
+import { CallTracker } from 'assert';
+import { Category } from './category';
 
 export interface Post {
   id: string;
@@ -29,6 +31,7 @@ export interface GetSingleBlogPostResponse {
 
 export interface BlogPost {
   categoryId: string;
+  category: Category;
   createdAt: string;
   desc: TrustedHTML | string;
   feature: boolean;
