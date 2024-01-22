@@ -1,4 +1,4 @@
-import SinglePost from '@/page-containers/singlePost';
+import SinglePost from '@/page-containers/user/singlePost';
 import { Metadata, NextPage } from 'next';
 import React from 'react';
 

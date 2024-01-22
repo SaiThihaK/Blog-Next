@@ -13,7 +13,7 @@ const Blogs = () => {
   const blogCategory = searchParams.get('category');
   const { data, isLoading, error } = useGetBlogs<GetAllBlogPostsResponse>();
   return (
-    <div className="mt-[30px]">
+    <div className="mt-[30px] grid col-span-1">
       <div className="w-full bg-orange-500 p-4">
         <h4 className="text-white text-xl lg:text-2xl capitalize font-bold text-center">
           {blogCategory ?? 'all'} blogs

@@ -1,28 +1,31 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
-import { useSession } from "next-auth/react";
+} from '@ant-design/icons';
+import { Layout, Menu, theme } from 'antd';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const items = [
   {
     icon: UserOutlined,
-    label: "Home",
+    label: 'Home',
+    target: '/admin',
   },
-  { icon: VideoCameraOutlined, label: "Blog" },
-  { icon: UploadOutlined, label: "Category" },
-  { icon: UserOutlined, label: "Log out" },
+  { icon: VideoCameraOutlined, label: 'Blog', target: '/admin/blogs' },
+  { icon: UploadOutlined, label: 'Categories', target: '/admin/categories' },
+  { icon: UserOutlined, label: 'Log out', target: '/admin/setting' },
 ].map((el, index) => ({
   key: String(index + 1),
   icon: React.createElement(el.icon),
   label: el.label,
+  target: el.target,
 }));
 
 type RootLayoutProps = {
@@ -33,10 +36,19 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
     token: { borderRadiusLG },
   } = theme.useToken();
   const { status } = useSession();
+  const router = useRouter();
+
+  const handleMenuClick = ({ key }: Record<string, any>) => {
+    const targetMenu = items.find((item) => item.key === key);
+    if (targetMenu) {
+      router.prefetch(targetMenu.target);
+      router.push(targetMenu.target);
+    }
+  };
 
   return (
     <>
-      {status === "authenticated" ? (
+      {status === 'authenticated' ? (
         <Layout>
           <Sider
             className="bg-white h-full"
@@ -49,9 +61,11 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
             <div className="demo-logo-vertical" />
             <Menu
               mode="inline"
-              defaultSelectedKeys={["1"]}
+              defaultSelectedKeys={['1']}
               defaultActiveFirst={true}
               items={items}
+              className="h-[80dvh]"
+              onClick={handleMenuClick}
             />
           </Sider>
           <Layout>
@@ -59,7 +73,6 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
             <Content className="m-9 lg:m-4">
               <div
                 className="h-[80dvh] overflow-y-scroll w-full"
-
                 style={{
                   borderRadius: borderRadiusLG,
                 }}
@@ -67,7 +80,7 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
                 {children}
               </div>
             </Content>
-            <Footer style={{ textAlign: "center" }}>
+            <Footer style={{ textAlign: 'center' }}>
               <strong>THE DEV</strong> ©{new Date().getFullYear()} Created by
               Revenuelab
             </Footer>

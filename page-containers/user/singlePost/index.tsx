@@ -1,9 +1,7 @@
 'use client';
-
 import Image from 'next/image';
 import React from 'react';
 import Menu from '../home/menu';
-import Comments from '@/components/shared/comments';
 import { useGetSingleBlog } from '@/services/blog';
 import { useParams } from 'next/navigation';
 import { GetSingleBlogPostResponse } from '@/types/posts';
@@ -16,7 +14,7 @@ const SinglePost = () => {
   );
   console.log('singel post date ==== ', blog);
   return (
-    <div>
+    <div className="grid col-span-1">
       {isLoading ? (
         <h2>Loading...</h2>
       ) : (

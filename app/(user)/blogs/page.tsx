@@ -1,4 +1,4 @@
-import Blogs from '@/page-containers/blogs';
+import Blogs from '@/page-containers/user/blogs';
 import { Metadata, NextPage } from 'next';
 import React from 'react';
 
