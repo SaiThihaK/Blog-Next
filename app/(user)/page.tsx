@@ -1,4 +1,4 @@
-import Home from '@/page-containers/home';
+import Home from '@/page-containers/user/home';
 import { Metadata, NextPage } from 'next';
 import React from 'react';
 

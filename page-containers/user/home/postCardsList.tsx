@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import BlogCard from '../../components/shared/blogCard';
-import PaginationButtons from '../../components/shared/paginationButtons';
+import BlogCard from '../../../components/shared/blogCard';
+import PaginationButtons from '../../../components/shared/paginationButtons';
 import { useGetBlogs } from '@/services/blog';
 import { GetAllBlogPostsResponse } from '@/types/posts';
 import { BlogListsSkeleton } from '@/components/shared/skeletons';

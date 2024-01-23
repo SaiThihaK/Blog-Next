@@ -6,7 +6,7 @@ import Menu from './menu';
 
 const Home = () => {
   return (
-    <div>
+    <div className="grid col-span-1">
       <Featured />
       <CategoriesList />
       <div className="flex gap-[50px] mt-[50px] justify-between">
