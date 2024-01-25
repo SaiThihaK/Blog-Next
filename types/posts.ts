@@ -19,6 +19,7 @@ export interface Post {
 
 export interface GetAllBlogPostsResponse {
   message: string;
+  total: number;
   data: BlogPost[];
   success: boolean;
 }
