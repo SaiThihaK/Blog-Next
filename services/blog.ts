@@ -19,9 +19,12 @@ export const useCreateBlogs = () =>
 
 export const useGetBlogs = <ApiResponse>(
   page: number = 1,
-  limit: number = 3
+  limit: number = 3,
+  category: string | null
 ): SWRResponse<ApiResponse, any> => {
-  return useSWR(`/api/blogs?page=${page}&limit=${limit}`);
+  return useSWR(
+    `/api/blogs?page=${page}&limit=${limit}&category=${category ?? ''}`
+  );
 };
 
 export const useGetSingleBlog = <ApiResponse>(

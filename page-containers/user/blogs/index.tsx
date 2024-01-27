@@ -16,7 +16,8 @@ const Blogs = () => {
 
   const { data, isLoading, error } = useGetBlogs<GetAllBlogPostsResponse>(
     currentPage,
-    limit
+    limit,
+    blogCategory
   );
   console.log('blog data ==== ', data);
 
@@ -42,7 +43,7 @@ const Blogs = () => {
       <div className="flex gap-[50px] mt-[50px] justify-between">
         <div className="flex-5">
           <h1 className="mb-[30px] lg:mb-[50px]">
-            {data?.data.length} Posts Found
+            {data?.data.length} Post{data?.data.length! > 1 && 's'} Found
           </h1>
           <div className="flex flex-col gap-[50px] mb-[50px]">
             {isLoading ? (

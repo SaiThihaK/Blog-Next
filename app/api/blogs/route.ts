@@ -5,19 +5,31 @@ export const GET = async (request: Request) => {
   try {
     const url = new URL(request.url);
 
-    const page = +(url.searchParams.get('page') ?? '1');
+    const page = +url.searchParams.get('page')!;
     const limit = +(url.searchParams.get('limit') ?? '3');
+    const category = url.searchParams.get('category');
     const skip = (page - 1) * limit;
 
+    const query = {
+      take: limit,
+      skip: skip,
+      include: { category: true },
+      where: {
+        ...(category && {
+          category: {
+            category: category,
+          },
+        }),
+      },
+    };
+
+    console.log('query === ', query);
+
     const [total, allBlogs] = await prismadb.$transaction([
-      prismadb.blog.count(),
-      prismadb.blog.findMany({
-        include: {
-          category: true,
-        },
-        skip,
-        take: limit,
+      prismadb.blog.count({
+        where: query.where,
       }),
+      prismadb.blog.findMany(query),
     ]);
 
     return NextResponse.json({
