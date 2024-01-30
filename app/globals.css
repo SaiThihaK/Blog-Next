@@ -81,7 +81,7 @@
     @apply text-inherit;
   }
   h1 {
-    @apply font-bold text-lg md:text-xl lg:text-2xl;
+    @apply font-bold text-xl lg:text-2xl;
   }
   .main-container {
     @apply min-h-screen bg-background text-textColor;

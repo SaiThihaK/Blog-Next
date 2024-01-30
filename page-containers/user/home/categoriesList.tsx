@@ -23,20 +23,13 @@ const CategoriesList = () => {
               <div
                 key={data.id}
                 role="button"
-                className="flex items-center justify-center rounded-sm gap-[10px] capitalize bg-slate-200 h-[80px] w-full sm:w-[45%] md:w-[25%] xl:w-[15%] cursor-pointer hover:shadow-md transition-all"
+                className="flex items-center justify-center rounded-sm gap-[10px] capitalize font-medium bg-slate-200 h-[80px] w-full sm:w-[45%] md:w-[25%] xl:w-[15%] cursor-pointer hover:shadow-md transition-all"
                 onClick={() =>
                   router.push(
                     `/blogs?category=${data.category.toLocaleLowerCase()}`
                   )
                 }
               >
-                <Image
-                  src="/style.png"
-                  alt="style category"
-                  width={32}
-                  height={32}
-                  className="w-[32px] h-[32px] rounded-full"
-                />
                 {data.category}
               </div>
             );

@@ -1,64 +1,82 @@
 'use client';
 import React from 'react';
-import { Badge, Button, Space, Table, Tag } from 'antd';
+import { Button, Space, Switch, Tag } from 'antd';
 import type { TableProps } from 'antd';
 import { useGetCategory } from '@/services/category';
 import { GetAllCateogriesResponse } from '@/types/category';
-import TableHeader from './tableHeader';
-
-const columns: TableProps<any>['columns'] = [
-  {
-    title: 'Id',
-    dataIndex: 'id',
-    key: 'id',
-  },
-  {
-    title: 'Name',
-    dataIndex: 'category',
-    key: 'category',
-  },
-  {
-    title: 'Color',
-    key: 'color',
-    render: (_) => (
-      <div className="w-[20px] h-[20px] rounded-md bg-green-500"></div>
-    ),
-  },
-  {
-    title: 'Created At',
-    dataIndex: 'createdAt',
-    key: 'createdAt',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_) => (
-      <Space size="middle">
-        <Button type="default">Edit</Button>
-        <Button danger>Delete</Button>
-      </Space>
-    ),
-  },
-];
+import dayjs from 'dayjs';
+import AdminTable from '@/components/shared/adminTable';
+import AdminTableHeader from '@/components/shared/adminTableHeader';
 
 const AdminCategories = () => {
-  const { data, isLoading, error } = useGetCategory<GetAllCateogriesResponse>();
-  const tableData = data?.data.map((c) => {
-    return {
-      key: c.id,
-      ...c,
-    };
-  });
+  const columns: TableProps<any>['columns'] = [
+    {
+      title: 'No',
+      key: 'id',
+      render: (_, c, index) => {
+        return <span>{index + 1}</span>;
+      },
+    },
+    {
+      title: 'Name',
+      dataIndex: 'category',
+      key: 'category',
+      render: (_, c) => (
+        <Tag color="#108ee9" key={c.category.id}>
+          {c.category}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Color',
+      key: 'color',
+      render: (_) => (
+        <div className="w-[20px] h-[20px] rounded-md bg-green-500"></div>
+      ),
+    },
+    {
+      title: 'Featured',
+      key: 'featured',
+      render: (_) => <Switch defaultChecked />,
+    },
+    {
+      title: 'Created At',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (_, c) => (
+        <span>{dayjs(c.createdAt).format('YYYY-MM-DD, hh:mm A')}</span>
+      ),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_) => (
+        <Space size="middle">
+          <Button type="default">Edit</Button>
+          <Button danger>Delete</Button>
+        </Space>
+      ),
+    },
+  ];
+  const { data, isLoading } = useGetCategory<GetAllCateogriesResponse>();
+
+  const onCreateBtnClick = () => {
+    console.log('Category create modal should open!');
+  };
+
   return (
-    <>
-      <Table
-        loading={isLoading}
-        columns={columns}
-        dataSource={tableData}
-        bordered
-        title={() => <TableHeader />}
-      />
-    </>
+    <AdminTable
+      loading={isLoading}
+      columns={columns}
+      dataSource={data?.data}
+      pagination={false}
+      header={
+        <AdminTableHeader
+          title="Categories Table"
+          onBtnClick={onCreateBtnClick}
+        />
+      }
+    />
   );
 };
 

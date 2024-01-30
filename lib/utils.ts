@@ -10,3 +10,7 @@ export function formatDate(dateString: string) {
   let date = new Date(dateString);
   return date.toLocaleDateString();
 }
+
+export function routeFilter(params: any) {
+  return new URLSearchParams(params);
+}
