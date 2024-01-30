@@ -17,8 +17,14 @@ export const useCreateBlogs = () =>
     return appAxios.post(url, arg);
   });
 
-export const useGetBlogs = <ApiResponse>(): SWRResponse<ApiResponse, any> => {
-  return useSWR(`/api/blogs`);
+export const useGetBlogs = <ApiResponse>(
+  page: number = 1,
+  limit: number = 3,
+  category: string | null
+): SWRResponse<ApiResponse, any> => {
+  return useSWR(
+    `/api/blogs?page=${page}&limit=${limit}&category=${category ?? ''}`
+  );
 };
 
 export const useGetSingleBlog = <ApiResponse>(
