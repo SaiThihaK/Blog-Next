@@ -6,7 +6,7 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
+import { FloatButton, Layout, Menu, theme } from "antd";
 import { useSession } from "next-auth/react";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -21,7 +21,7 @@ const items = [
   { icon: UserOutlined, label: "Log out" },
 ].map((el, index) => ({
   key: String(index + 1),
-  icon: React.createElement(el.icon),
+  icon: <FloatButton icon={<UserOutlined />} />,
   label: el.label,
 }));
 
@@ -59,7 +59,6 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
             <Content className="m-9 lg:m-4">
               <div
                 className="h-[80dvh] overflow-y-scroll w-full"
-
                 style={{
                   borderRadius: borderRadiusLG,
                 }}

@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import React from 'react';
-import Menu from '../home/menu';
-import Comments from '@/components/shared/comments';
-import { useGetSingleBlog } from '@/services/blog';
-import { useParams } from 'next/navigation';
-import { GetSingleBlogPostResponse } from '@/types/posts';
-import { formatDate } from '@/lib/utils';
+import Image from "next/image";
+import React from "react";
+import Menu from "../home/menu";
+import Comments from "@/components/shared/comments";
+import { useGetSingleBlog } from "@/services/blog";
+import { useParams } from "next/navigation";
+import { GetSingleBlogPostResponse } from "@/types/posts";
+import { formatDate } from "@/lib/utils";
 
 const SinglePost = () => {
   const { id } = useParams();
   const { data: blog, isLoading } = useGetSingleBlog<GetSingleBlogPostResponse>(
     id as string
   );
-  console.log('singel post date ==== ', blog);
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -54,7 +54,7 @@ const SinglePost = () => {
           />
         </div>
       </div>
-      <div className="flex gap-[50px] items-start">
+      <div className="flex gap-[50px] flex-wrap items-start">
         <div className="flex-5 flex gap-4 flex-col mt-[35px] lg:mt-[70px]">
           <div
             className="desc-container leading-7"

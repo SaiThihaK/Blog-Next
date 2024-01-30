@@ -15,9 +15,9 @@ export default async function RootLayout({
   return (
     <div className="main-container">
       <div className="wrapper">
-        <Navbar />
+        {/* <Navbar /> */}
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );
