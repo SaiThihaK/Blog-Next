@@ -23,6 +23,7 @@ export const useGetCategory = <ApiResponse>(): SWRResponse<
 export const useGetSingleCategory = (id: string): SWRResponse => {
   return useSWR(`/api/category/${id}`);
 };
+
 export const useDeleteCategory = (id: string) =>
   useSWRMutation(`/api/category/${id}`, (url) => {
     return appAxios.delete(url);

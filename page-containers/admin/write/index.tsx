@@ -48,7 +48,7 @@ const quillModules = {
 
 const PostWrite: React.FC = () => {
   const { trigger: createBlog } = useCreateBlogs();
-  const { data, isLoading, error } = useGetCategory<GetAllCateogriesResponse>();
+  const { data, isLoading } = useGetCategory<GetAllCateogriesResponse>();
   const { edgestore } = useEdgeStore();
   const [showAddBtns, setShowAddBtns] = useState<boolean>(false);
   const [text, setText] = useState<string>("");

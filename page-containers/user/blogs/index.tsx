@@ -8,18 +8,18 @@ import { useGetBlogs } from '@/services/blog';
 import { GetAllBlogPostsResponse } from '@/types/posts';
 import { BlogListsSkeleton } from '@/components/shared/skeletons';
 
+const limit = 5;
+
 const Blogs = () => {
-  const limit = 5;
   const searchParams = useSearchParams();
   const blogCategory = searchParams.get('category');
   const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const { data, isLoading, error } = useGetBlogs<GetAllBlogPostsResponse>(
-    currentPage,
+  console.log('blog category === ', blogCategory);
+  const { data, isLoading } = useGetBlogs<GetAllBlogPostsResponse>({
+    page: currentPage,
     limit,
-    blogCategory
-  );
-  console.log('blog data ==== ', data);
+    ...(blogCategory && { category: blogCategory }),
+  });
 
   // For the next pagination button disable state.
   const nextPageDisabled = currentPage * limit > (data?.total ?? 0);
@@ -30,7 +30,6 @@ const Blogs = () => {
     });
   const onPrevPage = () =>
     setCurrentPage((page) => {
-      if (page === 1) return 1;
       return page - 1;
     });
   return (
@@ -71,7 +70,7 @@ const Blogs = () => {
             nextDisabled={nextPageDisabled}
           />
         </div>
-        <Menu />
+        {/* <Menu /> */}
       </div>
     </div>
   );

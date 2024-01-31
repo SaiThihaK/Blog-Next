@@ -28,11 +28,11 @@ const PaginationButtons: React.FC<Props> = ({
         <PaginationContent className="justify-between w-full">
           <PaginationPrevious
             onClick={onPrev}
-            className={cn(prevDisabled && 'cursor-not-allowed')}
+            className={cn(prevDisabled && 'hidden pointer-events-none')}
           />
           <PaginationNext
             onClick={onNext}
-            className={cn(nextDisabled && 'cursor-not-allowed')}
+            className={cn(nextDisabled && 'hidden pointer-events-none')}
           />
         </PaginationContent>
       </Pagination>

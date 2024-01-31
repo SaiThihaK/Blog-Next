@@ -1,5 +1,5 @@
-import prismadb from "@/lib/db";
-import { NextResponse } from "next/server";
+import prismadb from '@/lib/db';
+import { NextResponse } from 'next/server';
 
 type RequestParams = {
   id: string;
@@ -20,21 +20,21 @@ export const GET = async (
 
     if (blog) {
       return NextResponse.json({
-        message: "Blog found",
+        message: 'Blog found',
         data: blog,
         success: true,
       });
     } else {
       return NextResponse.json({
-        message: "Blog not found",
+        message: 'Blog not found',
         data: null,
         success: false,
       });
     }
   } catch (error) {
-    console.error("Error fetching blog:", error);
+    console.error('Error fetching blog:', error);
     return NextResponse.json({
-      message: "Internal server error",
+      message: 'Internal server error',
       data: null,
       success: false,
     });
@@ -54,14 +54,14 @@ export const DELETE = async (
     });
     if (deleteBlog)
       return NextResponse.json({
-        message: "blog delete Successfull",
+        message: 'blog delete Successfull',
         data: null,
         success: true,
       });
   } catch (error) {
-    console.error("delete failed:", error);
+    console.error('delete failed:', error);
     return NextResponse.json({
-      message: "blog Delete Failed",
+      message: 'blog Delete Failed',
       data: null,
       success: false,
     });
