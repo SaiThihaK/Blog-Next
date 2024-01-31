@@ -21,24 +21,25 @@ const PostCard: React.FC<Props> = ({
   desc,
 }) => {
   return (
-    <div className="mb-[50px] flex items-center gap-[50px]">
+    <div className="flex items-center gap-[50px]">
       <div className="flex-1 h-[350px] relative hidden lg:block">
-        <Image src="/p1.jpeg" alt="img" fill className="object-cover" />
+        <Image src={coverImage} alt="img" fill className="object-cover" />
       </div>
       <div className="flex-1 flex flex-col gap-[20px]">
         <div className="flex gap-2">
           <span className="text-slate-600">{formatDate(date)}</span>
           <span>-</span>
-          <span className="text-red-700 font-medium">CULTURE</span>
+          <span className="text-red-700 font-medium uppercase">{category}</span>
         </div>
-        <Link href={`/blogs/${id}`}>
-          <h1>{title}</h1>
-        </Link>
+        <h1>{title}</h1>
         <div
           className="text-sm md:text-base font-normal text-textSoftColor"
           dangerouslySetInnerHTML={{ __html: `${desc.substring(0, 240)}...` }}
         />
-        <Link href="/" className="border-b-[1px] border-b-red-700 py-1 w-max">
+        <Link
+          href={`/blogs/${id}`}
+          className="border-b-[1px] border-b-red-700 py-1 w-max"
+        >
           Read More
         </Link>
       </div>

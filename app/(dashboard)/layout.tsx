@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { FloatButton, Layout, Menu, theme } from "antd";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -15,14 +16,16 @@ const items = [
   {
     icon: UserOutlined,
     label: "Home",
+    target: "/admin",
   },
-  { icon: VideoCameraOutlined, label: "Blog" },
-  { icon: UploadOutlined, label: "Category" },
-  { icon: UserOutlined, label: "Log out" },
+  { icon: VideoCameraOutlined, label: "Blog", target: "/admin/blogs" },
+  { icon: UploadOutlined, label: "Categories", target: "/admin/categories" },
+  { icon: UserOutlined, label: "Log out", target: "/admin/setting" },
 ].map((el, index) => ({
   key: String(index + 1),
   icon: <FloatButton icon={<UserOutlined />} />,
   label: el.label,
+  target: el.target,
 }));
 
 type RootLayoutProps = {
@@ -33,6 +36,15 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
     token: { borderRadiusLG },
   } = theme.useToken();
   const { status } = useSession();
+  const router = useRouter();
+
+  const handleMenuClick = ({ key }: Record<string, any>) => {
+    const targetMenu = items.find((item) => item.key === key);
+    if (targetMenu) {
+      router.prefetch(targetMenu.target);
+      router.push(targetMenu.target);
+    }
+  };
 
   return (
     <>
@@ -52,6 +64,8 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
               defaultSelectedKeys={["1"]}
               defaultActiveFirst={true}
               items={items}
+              className="h-[80dvh]"
+              onClick={handleMenuClick}
             />
           </Sider>
           <Layout>
