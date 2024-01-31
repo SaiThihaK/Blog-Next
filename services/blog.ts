@@ -2,6 +2,7 @@ import appAxios from '@/lib/appAxios';
 import { SWRResponse } from 'swr';
 import useSWRMutation from 'swr/mutation';
 import useSWR from 'swr';
+import { routeFilter } from '@/lib/utils';
 
 type createBlogArg = {
   arg: {
@@ -17,14 +18,12 @@ export const useCreateBlogs = () =>
     return appAxios.post(url, arg);
   });
 
-export const useGetBlogs = <ApiResponse>(
-  page: number = 1,
-  limit: number = 3,
-  category: string | null
-): SWRResponse<ApiResponse, any> => {
-  return useSWR(
-    `/api/blogs?page=${page}&limit=${limit}&category=${category ?? ''}`
-  );
+export const useGetBlogs = <ApiResponse>(params?: {
+  page: number;
+  limit: number;
+  category?: string;
+}): SWRResponse<ApiResponse, any> => {
+  return useSWR(`/api/blogs?${routeFilter(params)}`);
 };
 
 export const useGetSingleBlog = <ApiResponse>(
@@ -35,5 +34,6 @@ export const useGetSingleBlog = <ApiResponse>(
 
 export const useDeleteBlog = (id: string) =>
   useSWRMutation(`/api/blogs/${id}`, (url) => {
+    console.log(url, id);
     return appAxios.delete(url);
   });

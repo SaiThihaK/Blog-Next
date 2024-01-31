@@ -5,7 +5,7 @@ export const GET = async (request: Request) => {
   try {
     const url = new URL(request.url);
 
-    const page = +url.searchParams.get('page')!;
+    const page = +(url.searchParams.get('page') ?? '1');
     const limit = +(url.searchParams.get('limit') ?? '3');
     const category = url.searchParams.get('category');
     const skip = (page - 1) * limit;

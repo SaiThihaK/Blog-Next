@@ -6,13 +6,14 @@ import { useGetBlogs } from '@/services/blog';
 import { GetAllBlogPostsResponse } from '@/types/posts';
 import { BlogListsSkeleton } from '@/components/shared/skeletons';
 
+const limit = 3;
+
 const PostCardsList = () => {
-  const limit = 3;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const { data, isLoading, error } = useGetBlogs<GetAllBlogPostsResponse>(
-    currentPage,
-    limit
-  );
+  const { data, isLoading, error } = useGetBlogs<GetAllBlogPostsResponse>({
+    page: currentPage,
+    limit,
+  });
   console.log('blog data ==== ', data);
 
   // For the next pagination button disable state.

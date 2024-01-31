@@ -41,7 +41,6 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
   const handleMenuClick = ({ key }: Record<string, any>) => {
     const targetMenu = items.find((item) => item.key === key);
     if (targetMenu) {
-      router.prefetch(targetMenu.target);
       router.push(targetMenu.target);
     }
   };
@@ -72,7 +71,7 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
             <Header className="bg-white" />
             <Content className="m-9 lg:m-4">
               <div
-                className="h-[80dvh] overflow-y-scroll w-full"
+                className="min-h-[80dvh] overflow-y-scroll w-full"
                 style={{
                   borderRadius: borderRadiusLG,
                 }}
