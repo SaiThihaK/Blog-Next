@@ -4,9 +4,9 @@ import { Button, Space, Switch, Tag } from 'antd';
 import type { TableProps } from 'antd';
 import { useGetCategory } from '@/services/category';
 import { GetAllCateogriesResponse } from '@/types/category';
-import dayjs from 'dayjs';
 import AdminTable from '@/components/shared/adminTable';
 import AdminTableHeader from '@/components/shared/adminTableHeader';
+import { formatDate } from '@/lib/utils';
 
 const AdminCategories = () => {
   const columns: TableProps<any>['columns'] = [
@@ -44,7 +44,7 @@ const AdminCategories = () => {
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (_, c) => (
-        <span>{dayjs(c.createdAt).format('YYYY-MM-DD, hh:mm A')}</span>
+        <span>{formatDate(c.createdAt, 'YYYY-MM-DD, hh:mm A')}</span>
       ),
     },
     {

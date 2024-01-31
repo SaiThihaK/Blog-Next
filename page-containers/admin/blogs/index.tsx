@@ -1,19 +1,20 @@
 'use client';
 import React, { useState } from 'react';
-import { Button, Space, Switch, Tag } from 'antd';
+import { Button, Modal, Space, Switch, Tag } from 'antd';
 import type { TablePaginationConfig, TableProps } from 'antd';
 import type { GetAllBlogPostsResponse, BlogPost } from '@/types/posts';
-import { useGetBlogs } from '@/services/blog';
+import { useDeleteBlog, useGetBlogs } from '@/services/blog';
 import AdminTable from '@/components/shared/adminTable';
 import AdminTableHeader from '@/components/shared/adminTableHeader';
 import { useRouter } from 'next/navigation';
-import dayjs from 'dayjs';
+import { formatDate } from '@/lib/utils';
 
 const limit = 8;
 
 const AdminBlogs: React.FC = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
+  const [deleteBlogId, setDeleteBlogId] = useState('');
 
   const columns: TableProps<BlogPost>['columns'] = [
     {
@@ -50,25 +51,40 @@ const AdminBlogs: React.FC = () => {
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (_, c: BlogPost) => {
-        return <span>{dayjs(c.createdAt).format('YYYY-MM-DD, hh:mm A')}</span>;
+        return <span>{formatDate(c.createdAt, 'YYYY-MM-DD, hh:mm A')}</span>;
       },
     },
     {
       title: 'Action',
       key: 'action',
-      render: (_) => (
+      render: (_, c) => (
         <Space size="middle">
           <Button type="default">Edit</Button>
-          <Button danger>Delete</Button>
+          <Button danger onClick={() => confirmDeleteBlog(c.id)}>
+            Delete
+          </Button>
         </Space>
       ),
     },
   ];
+  const [modal, modalContext] = Modal.useModal();
 
   const { data, isLoading } = useGetBlogs<GetAllBlogPostsResponse>({
     page: currentPage,
     limit,
   });
+
+  const { trigger: deleteBlog } = useDeleteBlog(deleteBlogId);
+
+  const confirmDeleteBlog = (id: string) => {
+    setDeleteBlogId(id);
+    modal.confirm({
+      title: 'Do you confirm to delete this blog? ',
+      onOk: () => {
+        deleteBlog();
+      },
+    });
+  };
 
   const tablePagination: TablePaginationConfig = {
     total: data?.total,
@@ -83,15 +99,18 @@ const AdminBlogs: React.FC = () => {
     router.push('/admin/write');
   };
   return (
-    <AdminTable
-      loading={isLoading}
-      columns={columns}
-      dataSource={data?.data}
-      pagination={tablePagination}
-      header={
-        <AdminTableHeader title="Blog Tables" onBtnClick={onCreateBtnClick} />
-      }
-    />
+    <>
+      <AdminTable
+        loading={isLoading}
+        columns={columns}
+        dataSource={data?.data}
+        pagination={tablePagination}
+        header={
+          <AdminTableHeader title="Blog Tables" onBtnClick={onCreateBtnClick} />
+        }
+      />
+      {modalContext}
+    </>
   );
 };
 

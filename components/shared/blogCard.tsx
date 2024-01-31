@@ -44,7 +44,7 @@ const PostCard: React.FC<Props> = ({
           className="text-slate-600 overflow-hidden group hover:text-slate-900 transition-all py-1 w-max relative"
         >
           Read More
-          <div className="absolute bottom-0 h-[0.5px] transition-all left-0 -translate-x-full group-hover:translate-x-0 inset-x-0 bg-slate-950"></div>
+          <div className="absolute bottom-0 h-[0.5px] transition-all left-0 -translate-x-full group-hover:translate-x-0 inset-x-0 bg-slate-950 -mt-1"></div>
         </Link>
       </div>
     </div>

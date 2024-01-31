@@ -23,8 +23,6 @@ export const GET = async (request: Request) => {
       },
     };
 
-    console.log('query === ', page, limit);
-
     const [total, allBlogs] = await prismadb.$transaction([
       prismadb.blog.count({
         where: query.where,
