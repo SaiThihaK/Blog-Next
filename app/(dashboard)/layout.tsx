@@ -1,29 +1,29 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+} from "@ant-design/icons";
+import { FloatButton, Layout, Menu, theme } from "antd";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const items = [
   {
     icon: UserOutlined,
-    label: 'Home',
-    target: '/admin',
+    label: "Home",
+    target: "/admin",
   },
-  { icon: VideoCameraOutlined, label: 'Blog', target: '/admin/blogs' },
-  { icon: UploadOutlined, label: 'Categories', target: '/admin/categories' },
-  { icon: UserOutlined, label: 'Log out', target: '/admin/setting' },
+  { icon: VideoCameraOutlined, label: "Blog", target: "/admin/blogs" },
+  { icon: UploadOutlined, label: "Categories", target: "/admin/categories" },
+  { icon: UserOutlined, label: "Log out", target: "/admin/setting" },
 ].map((el, index) => ({
   key: String(index + 1),
-  icon: React.createElement(el.icon),
+  icon: <FloatButton icon={<UserOutlined />} />,
   label: el.label,
   target: el.target,
 }));
@@ -47,7 +47,7 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
 
   return (
     <>
-      {status === 'authenticated' ? (
+      {status === "authenticated" ? (
         <Layout>
           <Sider
             className="bg-white h-full"
@@ -60,7 +60,7 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
             <div className="demo-logo-vertical" />
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
+              defaultSelectedKeys={["1"]}
               defaultActiveFirst={true}
               items={items}
               className="h-[80dvh]"
@@ -79,7 +79,7 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
                 {children}
               </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
+            <Footer style={{ textAlign: "center" }}>
               <strong>THE DEV</strong> ©{new Date().getFullYear()} Created by
               Revenuelab
             </Footer>
