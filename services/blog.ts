@@ -32,8 +32,7 @@ export const useGetSingleBlog = <ApiResponse>(
   return useSWR(`/api/blogs/${id}`);
 };
 
-export const useDeleteBlog = (id: string) =>
-  useSWRMutation(`/api/blogs/${id}`, (url) => {
-    console.log(url, id);
-    return appAxios.delete(url);
+export const useDeleteBlogs = () =>
+  useSWRMutation(`/api/blogs`, (url, { arg }: { arg: { id: string } }) => {
+    return appAxios.delete(`${url}/${arg.id}`);
   });

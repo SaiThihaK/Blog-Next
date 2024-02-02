@@ -7,6 +7,7 @@ import PaginationButtons from "@/components/shared/paginationButtons";
 import { useGetBlogs } from "@/services/blog";
 import { GetAllBlogPostsResponse } from "@/types/posts";
 import { BlogListsSkeleton } from "@/components/shared/skeletons";
+import Link from "next/link";
 
 const limit = 5;
 
@@ -43,6 +44,12 @@ const Blogs = () => {
           <h1 className="mb-[30px] lg:mb-[50px]">
             {data?.data?.length} Post{data?.data?.length! > 1 && "s"} Found
           </h1>
+          <PaginationButtons
+            onNext={onNextPage}
+            onPrev={onPrevPage}
+            prevDisabled={currentPage === 1}
+            nextDisabled={nextPageDisabled}
+          />
           <div className="flex flex-col gap-[50px] mb-[50px]">
             {isLoading ? (
               <BlogListsSkeleton />
@@ -51,15 +58,16 @@ const Blogs = () => {
               data.data.length > 0 &&
               data.data.map((post) => {
                 return (
-                  <PostCard
-                    key={post.id}
-                    id={post.id}
-                    title={post.title}
-                    desc={post.desc as string}
-                    category={post.category.category}
-                    date={post.createdAt}
-                    coverImage={post.image}
-                  />
+                  <Link href={`/blogs/${post.id}`} key={post.id}>
+                    <PostCard
+                      id={post.id}
+                      title={post.title}
+                      desc={post.desc as string}
+                      category={post.category.category}
+                      date={post.createdAt}
+                      coverImage={post.image}
+                    />
+                  </Link>
                 );
               })
             )}
