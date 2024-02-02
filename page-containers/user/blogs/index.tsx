@@ -22,7 +22,7 @@ const Blogs = () => {
   });
 
   // For the next pagination button disable state.
-  const nextPageDisabled = currentPage * limit > (data?.total ?? 0);
+  const nextPageDisabled = currentPage * limit >= (data?.total ?? 0);
 
   const onNextPage = () =>
     setCurrentPage((page) => {
