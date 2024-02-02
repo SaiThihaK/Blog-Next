@@ -4,6 +4,7 @@ export interface Category {
   id: string;
   createdAt: string;
   category: string;
+  color: string;
   blog?: Post[];
 }
 
