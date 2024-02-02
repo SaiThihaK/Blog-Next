@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, Modal, Space, Switch, Tag } from "antd";
 import type { TablePaginationConfig, TableProps } from "antd";
 import type { GetAllBlogPostsResponse, BlogPost } from "@/types/posts";
-import { useDeleteBlog, useGetBlogs } from "@/services/blog";
+import { useDeleteBlogs, useGetBlogs } from "@/services/blog";
 import AdminTable from "@/components/shared/adminTable";
 import AdminTableHeader from "@/components/shared/adminTableHeader";
 import { useRouter } from "next/navigation";
@@ -14,8 +14,43 @@ const limit = 8;
 const AdminBlogs: React.FC = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
-  const [deleteBlogId, setDeleteBlogId] = useState("");
+  const [modal, modalContext] = Modal.useModal();
 
+  const { data, isLoading, mutate } = useGetBlogs<GetAllBlogPostsResponse>({
+    page: currentPage,
+    limit,
+  });
+
+  const { trigger: deleteBlog } = useDeleteBlogs();
+
+  const confirmDeleteBlog = (id: string) => {
+    modal.confirm({
+      title: "Do you confirm to delete this blog? ",
+      onOk: async () => {
+        await deleteBlog(
+          { id: id },
+          {
+            onSuccess: () => {
+              mutate();
+            },
+          }
+        );
+      },
+    });
+  };
+
+  const tablePagination: TablePaginationConfig = {
+    total: data?.total,
+    current: currentPage,
+    defaultCurrent: 1,
+    pageSize: limit,
+    onChange: (page) => {
+      setCurrentPage(page);
+    },
+  };
+  const onCreateBtnClick = () => {
+    router.push("/admin/write");
+  };
   const columns: TableProps<BlogPost>["columns"] = [
     {
       title: "Id",
@@ -67,37 +102,6 @@ const AdminBlogs: React.FC = () => {
       ),
     },
   ];
-  const [modal, modalContext] = Modal.useModal();
-
-  const { data, isLoading } = useGetBlogs<GetAllBlogPostsResponse>({
-    page: currentPage,
-    limit,
-  });
-
-  const { trigger: deleteBlog } = useDeleteBlog(deleteBlogId);
-
-  const confirmDeleteBlog = (id: string) => {
-    setDeleteBlogId(id);
-    modal.confirm({
-      title: "Do you confirm to delete this blog? ",
-      onOk: () => {
-        deleteBlog();
-      },
-    });
-  };
-
-  const tablePagination: TablePaginationConfig = {
-    total: data?.total,
-    current: currentPage,
-    defaultCurrent: 1,
-    pageSize: limit,
-    onChange: (page) => {
-      setCurrentPage(page);
-    },
-  };
-  const onCreateBtnClick = () => {
-    router.push("/admin/write");
-  };
   return (
     <>
       <AdminTable
