@@ -1,13 +1,13 @@
-import prismadb from '@/lib/db';
-import { NextResponse } from 'next/server';
+import prismadb from "@/lib/db";
+import { NextResponse } from "next/server";
 
 export const GET = async (request: Request) => {
   try {
     const url = new URL(request.url);
 
-    const page = +(url.searchParams.get('page') ?? '1');
-    const limit = +(url.searchParams.get('limit') ?? '3');
-    const category = url.searchParams.get('category');
+    const page = +(url.searchParams.get("page") ?? "1");
+    const limit = +(url.searchParams.get("limit") ?? "3");
+    const category = url.searchParams.get("category");
     const skip = (page - 1) * limit;
 
     const query = {
@@ -31,15 +31,15 @@ export const GET = async (request: Request) => {
     ]);
 
     return NextResponse.json({
-      message: 'Fetch all blogs successfully',
+      message: "Fetch all blogs successfully",
       total,
       data: allBlogs,
       success: true,
     });
   } catch (error) {
-    console.error('Error fetching blogs:', error);
+    console.error("Error fetching blogs:", error);
     return NextResponse.json({
-      message: 'Internal server error',
+      message: "Internal server error",
       data: null,
       success: false,
     });
@@ -55,19 +55,20 @@ export const POST = async (request: Request) => {
         desc,
         image,
         categoryId,
+
         userEmail: email,
       },
     });
 
     return NextResponse.json({
-      message: 'Blog created successfully',
+      message: "Blog created successfully",
       data: null,
       success: true,
     });
   } catch (error) {
-    console.error('Error creating blog:', error);
+    console.error("Error creating blog:", error);
     return NextResponse.json({
-      message: 'Internal server error',
+      message: "Internal server error",
       data: null,
       success: false,
     });

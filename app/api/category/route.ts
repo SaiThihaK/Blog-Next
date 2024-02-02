@@ -25,7 +25,7 @@ export const GET = async () => {
 
 export const POST = async (request: Request) => {
   try {
-    const { category } = await request.json();
+    const { category, color } = await request.json();
     const existedCategory = await prismadb.category.findUnique({
       where: { category },
     });
@@ -39,6 +39,7 @@ export const POST = async (request: Request) => {
     await prismadb.category.create({
       data: {
         category,
+        color,
       },
     });
 
@@ -49,6 +50,40 @@ export const POST = async (request: Request) => {
     });
   } catch (error) {
     console.error("Error creating blog:", error);
+    return NextResponse.json({
+      message: "Internal server error",
+      data: error,
+      success: false,
+    });
+  }
+};
+
+export const PUT = async (request: Request) => {
+  try {
+    const { id, color, category } = await request.json();
+    const updateCategory = await prismadb.category.update({
+      where: {
+        id: id,
+      },
+      data: {
+        category,
+        color,
+      },
+    });
+    if (updateCategory) {
+      return NextResponse.json({
+        message: "Updating Complete",
+        data: updateCategory,
+        success: true,
+      });
+    }
+    return NextResponse.json({
+      message: "Internal server error",
+      data: null,
+      success: false,
+    });
+  } catch (error) {
+    console.error("Error updating blog:", error);
     return NextResponse.json({
       message: "Internal server error",
       data: error,
