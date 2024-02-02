@@ -13,7 +13,7 @@ const limit = 8;
 
 const AdminBlogs: React.FC = () => {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [modal, modalContext] = Modal.useModal();
 
   const { data, isLoading, mutate } = useGetBlogs<GetAllBlogPostsResponse>({
@@ -110,7 +110,7 @@ const AdminBlogs: React.FC = () => {
         dataSource={data?.data}
         pagination={tablePagination}
         header={
-          <AdminTableHeader title="Blog Tables" onBtnClick={onCreateBtnClick} />
+          <AdminTableHeader title="Blogs Table" onBtnClick={onCreateBtnClick} />
         }
       />
       {modalContext}

@@ -1,7 +1,7 @@
-import appAxios from '@/lib/appAxios';
-import { SWRResponse } from 'swr';
-import useSWRMutation from 'swr/mutation';
-import useSWR from 'swr';
+import appAxios from "@/lib/appAxios";
+import { SWRResponse } from "swr";
+import useSWRMutation from "swr/mutation";
+import useSWR from "swr";
 
 type createCategoryArg = {
   arg: {
@@ -23,8 +23,7 @@ export const useGetCategory = <ApiResponse>(): SWRResponse<
 export const useGetSingleCategory = (id: string): SWRResponse => {
   return useSWR(`/api/category/${id}`);
 };
-
-export const useDeleteCategory = (id: string) =>
-  useSWRMutation(`/api/category/${id}`, (url) => {
-    return appAxios.delete(url);
+export const useDeleteCategroy = () =>
+  useSWRMutation(`/api/category`, (url, { arg }: { arg: { id: string } }) => {
+    return appAxios.delete(`${url}/${arg.id}`);
   });
