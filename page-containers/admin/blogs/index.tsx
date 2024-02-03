@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Modal, Space, Switch, Tag } from 'antd';
 import type { TablePaginationConfig, TableProps } from 'antd';
 import type { GetAllBlogPostsResponse, BlogPost } from '@/types/posts';
-import { useDeleteBlogs, useGetBlogs } from '@/services/blog';
+import { useDeleteBlogs, useGetBlogs, useUpdateBlog } from '@/services/blog';
 import AdminTable from '@/components/shared/adminTable';
 import AdminTableHeader from '@/components/shared/adminTableHeader';
 import { useRouter } from 'next/navigation';
@@ -22,6 +22,7 @@ const AdminBlogs: React.FC = () => {
   });
 
   const { trigger: deleteBlog } = useDeleteBlogs();
+  const { trigger: updateBlog, isMutating } = useUpdateBlog();
 
   const confirmDeleteBlog = (id: string) => {
     modal.confirm({
@@ -35,6 +36,14 @@ const AdminBlogs: React.FC = () => {
             },
           }
         );
+      },
+    });
+  };
+
+  const confirmUpdateBlog = (values: any) => {
+    updateBlog(values, {
+      onSuccess: () => {
+        mutate();
       },
     });
   };
@@ -70,16 +79,55 @@ const AdminBlogs: React.FC = () => {
       dataIndex: 'category',
       render: (_, c: BlogPost) => {
         return (
-          <Tag color="#108ee9" key={c.category.id}>
-            {c.category.category}
+          <Tag color={c.category.color} key={c.category.id}>
+            {c.category.category.toUpperCase()}
           </Tag>
         );
       },
     },
     {
+      title: 'Top Post',
+      key: 'topPost',
+      render: (_, c: BlogPost) => (
+        <Switch
+          disabled={isMutating}
+          checked={c.topPost}
+          onChange={(e) => {
+            confirmUpdateBlog({
+              id: c.id,
+              title: c.title,
+              desc: c.desc,
+              image: c.image,
+              email: c.userEmail,
+              topPost: e,
+              categoryId: c.categoryId,
+            });
+          }}
+        />
+      ),
+    },
+    {
       title: 'Featured',
       key: 'featured',
-      render: (_) => <Switch defaultChecked />,
+      dataIndex: 'feature',
+      render: (_, c: BlogPost) => (
+        <Switch
+          disabled={isMutating}
+          checked={c.feature}
+          onChange={(e) => {
+            confirmUpdateBlog({
+              id: c.id,
+              title: c.title,
+              desc: c.desc,
+              image: c.image,
+              email: c.userEmail,
+              topPost: c.topPost,
+              feature: e,
+              categoryId: c.categoryId,
+            });
+          }}
+        />
+      ),
     },
     {
       title: 'Created At',

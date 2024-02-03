@@ -1,5 +1,5 @@
 'use client';
-import React, { MutableRefObject, useRef, useState } from 'react';
+import React, { MutableRefObject, useRef } from 'react';
 import { Button, Modal, Space, Switch, Tag } from 'antd';
 import type { TableProps } from 'antd';
 import {
@@ -79,8 +79,8 @@ const AdminCategories = () => {
       dataIndex: 'category',
       key: 'category',
       render: (_, c) => (
-        <Tag color="#108ee9" key={c.category}>
-          {c.category}
+        <Tag color={''} key={c.category}>
+          {c.category.toUpperCase()}
         </Tag>
       ),
     },
@@ -88,12 +88,15 @@ const AdminCategories = () => {
       title: 'Color',
       key: 'color',
       render: (_, c) => (
-        <div
-          className="w-[20px] h-[20px] rounded-md"
-          style={{
-            backgroundColor: c.color,
-          }}
-        ></div>
+        <div className="flex items-center gap-[8px]">
+          <div
+            style={{
+              backgroundColor: c.color,
+            }}
+            className="w-[24px] h-[24px] rounded-full"
+          ></div>
+          <span>{c.color.toUpperCase()}</span>
+        </div>
       ),
     },
     {

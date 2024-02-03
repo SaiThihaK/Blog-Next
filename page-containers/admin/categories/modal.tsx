@@ -20,10 +20,6 @@ const CategoryModal = forwardRef(
     const [mode, setMode] = useState<string>('create');
     const [form] = Form.useForm();
 
-    useImperativeHandle(ref, () => ({
-      open: (data: CategoryForm, mode: string) => handleOpen(data, mode),
-    }));
-
     const handleOpen = (data: CategoryForm, mode: string) => {
       console.log('dataaa === ', data);
       setMode(mode);
@@ -54,6 +50,10 @@ const CategoryModal = forwardRef(
       handleClose();
     };
 
+    useImperativeHandle(ref, () => ({
+      open: (data: CategoryForm, mode: string) => handleOpen(data, mode),
+    }));
+
     return (
       <Modal
         open={open}
@@ -64,9 +64,7 @@ const CategoryModal = forwardRef(
         <Form
           form={form}
           name="category"
-          style={{
-            padding: '24px 0 0 0',
-          }}
+          className="pt-[24px]"
           onFinish={onFinish}
           initialValues={{
             category: '',
@@ -77,10 +75,25 @@ const CategoryModal = forwardRef(
           <FormItem<CategoryForm> name="id" hidden>
             <Input />
           </FormItem>
-          <FormItem<CategoryForm> label="Category Name" name="category">
+          <FormItem<CategoryForm>
+            label="Category Name"
+            name="category"
+            rules={[
+              {
+                required: true,
+                message: 'Please input category name!',
+              },
+            ]}
+          >
             <Input />
           </FormItem>
-          <FormItem<CategoryForm> label="Category Color" name="color">
+          <FormItem<CategoryForm>
+            label="Category Color"
+            name="color"
+            rules={[
+              { required: true, message: 'Please input category color!' },
+            ]}
+          >
             <CustomColorPicker />
           </FormItem>
           <FormItem<CategoryForm>
@@ -89,11 +102,7 @@ const CategoryModal = forwardRef(
               justifyContent: 'flex-end',
             }}
           >
-            <Button
-              type="primary"
-              htmlType="submit"
-              style={{ marginLeft: 'auto' }}
-            >
+            <Button type="primary" htmlType="submit" className="ml-auto">
               Submit
             </Button>
           </FormItem>
