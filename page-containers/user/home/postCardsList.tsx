@@ -1,10 +1,10 @@
 'use client';
 import React, { useState } from 'react';
-import BlogCard from '../../../components/shared/blogCard';
-import PaginationButtons from '../../../components/shared/paginationButtons';
 import { useGetBlogs } from '@/services/blog';
 import { GetAllBlogPostsResponse } from '@/types/posts';
 import { BlogListsSkeleton } from '@/components/shared/skeletons';
+import PostCard from '@/components/shared/blogCard';
+import PaginationButtons from '@/components/shared/paginationButtons';
 
 const limit = 3;
 
@@ -35,9 +35,11 @@ const PostCardsList = () => {
         {isLoading ? (
           <BlogListsSkeleton />
         ) : (
+          data?.data &&
+          data.data.length > 0 &&
           data?.data.map((post) => {
             return (
-              <BlogCard
+              <PostCard
                 key={post.id}
                 id={post.id}
                 title={post.title}

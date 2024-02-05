@@ -1,6 +1,6 @@
 'use client';
 import './admin.css';
-import React from 'react';
+import React, { useTransition } from 'react';
 import {
   UploadOutlined,
   UserOutlined,
@@ -30,7 +30,7 @@ const items = [
   { icon: UploadOutlined, label: 'Categories', target: '/admin/categories' },
 ].map((el, index) => ({
   key: `${el.target}`,
-  icon: <FloatButton icon={<UserOutlined />} />,
+  // icon: <FloatButton icon={<UserOutlined />} />,
   label: el.label,
   target: el.target,
 }));
@@ -60,11 +60,14 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
   const { status, data } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const [pending, startTransition] = useTransition();
 
   const handleMenuClick = ({ key }: Record<string, any>) => {
     const targetMenu = items.find((item) => item.key === key);
     if (targetMenu) {
-      router.push(targetMenu.target);
+      startTransition(() => {
+        router.push(targetMenu.target);
+      });
     }
   };
 
@@ -72,7 +75,7 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
     <>
       {status === 'authenticated' ? (
         <Layout>
-          <Header className="bg-white mb-[20px] flex items-center justify-between">
+          <Header className="px-8 bg-white mb-[20px] flex items-center justify-between">
             <h1>The Dev</h1>
             <Dropdown menu={{ items: dropDownItems }}>
               <Avatar>{data.user?.name}</Avatar>
@@ -80,7 +83,7 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
           </Header>
           <Layout>
             <Sider
-              className="bg-white h-full"
+              className="bg-white h-full relative"
               breakpoint="lg"
               collapsedWidth="0"
             >
@@ -90,22 +93,23 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
                 defaultActiveFirst={true}
                 selectedKeys={[pathname]}
                 items={items}
-                className="h-[80dvh]"
+                className="min-h-[88dvh]"
                 onClick={handleMenuClick}
+                disabled={pending}
               />
             </Sider>
-            <Content className="ml-[14px]">
+            <Content className="ml-[14px] overflow-y-scroll">
               <div
                 style={{
                   borderRadius: borderRadiusLG,
                 }}
-                className="min-h-[80dvh] overflow-y-scroll w-full"
+                className="h-full w-full"
               >
                 {children}
               </div>
             </Content>
           </Layout>
-          <Footer className="text-center">
+          <Footer className="text-center bg-white py-4">
             <strong>THE DEV</strong> ©{new Date().getFullYear()} Created by
             Revenuelab
           </Footer>

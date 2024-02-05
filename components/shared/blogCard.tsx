@@ -1,7 +1,9 @@
-import { formatDate } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+'use client';
+import { formatDate } from '@/lib/utils';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 
 interface Props {
   id: string;
@@ -20,6 +22,7 @@ const PostCard: React.FC<Props> = ({
   category,
   desc,
 }) => {
+  const router = useRouter();
   return (
     <div className="flex items-center gap-[50px]">
       <div className="flex-1 h-[350px] relative hidden lg:block">
@@ -39,13 +42,13 @@ const PostCard: React.FC<Props> = ({
           className="text-sm md:text-base font-normal text-textSoftColor"
           dangerouslySetInnerHTML={{ __html: `${desc.substring(0, 240)}...` }}
         />
-        <Link
-          href={`/blogs/${id}`}
+        <button
+          onClick={() => router.push(`/blogs/${id}`)}
           className="text-slate-600 overflow-hidden group hover:text-slate-900 transition-all py-1 w-max relative"
         >
           Read More
           <div className="absolute bottom-0 h-[1px] transition-all left-0 -translate-x-full group-hover:translate-x-0 inset-x-0 bg-slate-950 -mt-1"></div>
-        </Link>
+        </button>
       </div>
     </div>
   );

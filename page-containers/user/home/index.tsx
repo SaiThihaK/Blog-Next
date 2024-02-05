@@ -5,6 +5,7 @@ import PostCardsList from './postCardsList';
 import Menu from './menu';
 
 const Home = () => {
+  // const {} =
   return (
     <div className="grid col-span-1">
       <Featured />
