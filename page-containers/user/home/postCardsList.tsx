@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState } from "react";
 import BlogCard from "../../../components/shared/blogCard";
@@ -36,10 +37,12 @@ const PostCardsList = () => {
           <BlogListsSkeleton />
         ) : (
           data?.data &&
+
           data?.data.length > 0 &&
+
           data?.data.map((post) => {
             return (
-              <BlogCard
+              <PostCard
                 key={post.id}
                 id={post.id}
                 title={post.title}

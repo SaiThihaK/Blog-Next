@@ -37,6 +37,7 @@ const AdminCategories = () => {
       await editCategory(values, {
         onSuccess: () => {
           mutate();
+          handleCategoryModalClose();
         },
       });
       return;
@@ -52,6 +53,7 @@ const AdminCategories = () => {
           {
             onSuccess: () => {
               mutate();
+              handleCategoryModalClose();
             },
           }
         );
@@ -59,11 +61,15 @@ const AdminCategories = () => {
     });
   };
 
-  const handleCategoryModal = (
+  const handleCategoryModalOpen = (
     data: { id: string; color: string; category: string } | {},
     mode: string
   ) => {
     modalRef.current?.open(data, mode);
+  };
+
+  const handleCategoryModalClose = () => {
+    modalRef.current?.close();
   };
 
   const columns: TableProps<Category>['columns'] = [
@@ -120,7 +126,7 @@ const AdminCategories = () => {
           <Button
             type="default"
             onClick={() => {
-              handleCategoryModal(
+              handleCategoryModalOpen(
                 {
                   id: c.id,
                   category: c.category,
@@ -150,7 +156,7 @@ const AdminCategories = () => {
           <AdminTableHeader
             title="Categories Table"
             onBtnClick={() => {
-              handleCategoryModal({}, 'create');
+              handleCategoryModalOpen({}, 'create');
             }}
           />
         }

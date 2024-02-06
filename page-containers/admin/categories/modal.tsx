@@ -40,18 +40,28 @@ const CategoryModal = forwardRef(
           : values.color.toHexString();
       if (mode === 'create') {
         onSubmitForm(
-          { category: values.category, color: hexColorValue },
+          {
+            category: values.category.toLocaleLowerCase(),
+            color: hexColorValue,
+          },
           'create'
         );
       } else if (mode === 'edit') {
-        onSubmitForm({ ...values, color: hexColorValue }, 'edit');
+        onSubmitForm(
+          {
+            ...values,
+            category: values.category.toLocaleLowerCase(),
+            color: hexColorValue,
+          },
+          'edit'
+        );
       }
       form.resetFields();
-      handleClose();
     };
 
     useImperativeHandle(ref, () => ({
       open: (data: CategoryForm, mode: string) => handleOpen(data, mode),
+      close: () => handleClose(),
     }));
 
     return (

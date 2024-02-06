@@ -1,14 +1,20 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useState } from "react";
 
-import HamburgerMenu from "./hamburgerMenu";
+'use client';
+import { User } from '@/types/users';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+
+import HamburgerMenu from './hamburgerMenu';
+import { useSession } from 'next-auth/react';
+import AuthLinks from './authLinks';
 import SearchBrowse from "./searchBrowse";
-
 type NavbarProps = {};
 const Navbar: React.FC<NavbarProps> = () => {
+  const { data } = useSession();
   const [openSearch, setOpenSearch] = useState<boolean>(false);
+
+
   return (
     <nav className="flex justify-between items-center h-[100px]">
       <div className="gap-3 flex-1 hidden lg:flex">
@@ -29,6 +35,9 @@ const Navbar: React.FC<NavbarProps> = () => {
         <Link href="/">Home</Link>
         <Link href="/blogs">Blogs</Link>
         <Link href="/">Contact</Link>
+
+        <AuthLinks user={data?.user} />
+
         <div
           className="cursor-pointer"
           onClick={() => setOpenSearch((prev) => !prev)}
@@ -42,6 +51,7 @@ const Navbar: React.FC<NavbarProps> = () => {
         )}
 
         {/* <AuthLinks user={user} /> */}
+
       </div>
       <HamburgerMenu />
     </nav>

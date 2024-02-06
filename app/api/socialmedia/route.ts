@@ -1,19 +1,19 @@
-import prismadb from "@/lib/db";
-import { NextResponse } from "next/server";
+import prismadb from '@/lib/db';
+import { NextResponse } from 'next/server';
 
 export const GET = async () => {
   try {
     const allSocialLink = await prismadb.socialMedia.findMany();
     if (allSocialLink) {
       return NextResponse.json({
-        message: "Fetch Succesfull All SocialMedia",
+        message: 'Fetch Succesfull All SocialMedia',
         data: allSocialLink,
         success: true,
       });
     }
   } catch (error) {
     return NextResponse.json({
-      message: "Fail fetching social media links",
+      message: 'Fail fetching social media links',
       data: null,
       success: false,
     });
@@ -30,7 +30,7 @@ export const POST = async (request: Request) => {
     });
     if (existLink) {
       return NextResponse.json({
-        message: "This social media platform is already linked",
+        message: 'This social media platform is already linked',
         data: null,
         success: false,
       });
@@ -49,7 +49,7 @@ export const POST = async (request: Request) => {
       });
   } catch (error) {}
   return NextResponse.json({
-    message: "500 Internal Server",
+    message: '500 Internal Server',
     data: null,
     success: false,
   });
@@ -71,16 +71,49 @@ export const DELETE = async (
     });
     if (socialLink)
       return NextResponse.json({
-        message: "social Media Delete Successfull",
+        message: 'social Media Delete Successfull',
         data: null,
         success: true,
       });
   } catch (error) {
-    console.error("delete failed:", error);
+    console.error('delete failed:', error);
     return NextResponse.json({
-      message: "Social Media Delete Failed",
+      message: 'Social Media Delete Failed',
       data: null,
       success: false,
+    });
+  }
+};
+
+export const PUT = async (request: Request) => {
+  try {
+    const { id, type, socialLink } = await request.json();
+    const updateLink = await prismadb.socialMedia.update({
+      where: {
+        id: id,
+      },
+      data: {
+        type,
+        socialLink,
+      },
+    });
+    if (updateLink) {
+      return NextResponse.json({
+        message: 'Update Link Complete!',
+        success: true,
+        data: updateLink,
+      });
+    }
+    return NextResponse.json({
+      message: 'Internal Server Error!',
+      success: false,
+      data: null,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      message: 'Internal Server Error!',
+      success: false,
+      data: error,
     });
   }
 };

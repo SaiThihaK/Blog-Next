@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { Button, Modal, Space, Switch, Tag } from 'antd';
 import type { TablePaginationConfig, TableProps } from 'antd';
 import type { GetAllBlogPostsResponse, BlogPost } from '@/types/posts';
@@ -13,6 +13,7 @@ const limit = 8;
 
 const AdminBlogs: React.FC = () => {
   const router = useRouter();
+  const [pending, startTransition] = useTransition();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [modal, modalContext] = Modal.useModal();
 
@@ -58,7 +59,9 @@ const AdminBlogs: React.FC = () => {
     },
   };
   const onCreateBtnClick = () => {
-    router.push('/admin/write');
+    startTransition(() => {
+      router.push('/admin/write');
+    });
   };
   const columns: TableProps<BlogPost>['columns'] = [
     {
