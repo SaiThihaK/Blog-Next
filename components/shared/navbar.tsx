@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = () => {
         <Link href="/blogs">Blogs</Link>
         <Link href="/">Contact</Link>
 
-        <AuthLinks user={data?.user} />
+        {/* <AuthLinks user={data?.user} /> */}
 
         <div
           className="cursor-pointer"
