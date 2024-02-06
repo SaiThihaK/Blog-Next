@@ -1,8 +1,8 @@
-import appAxios from '@/lib/appAxios';
-import { SWRResponse } from 'swr';
-import useSWRMutation from 'swr/mutation';
-import useSWR from 'swr';
-import { routeFilter } from '@/lib/utils';
+import appAxios from "@/lib/appAxios";
+import { SWRResponse } from "swr";
+import useSWRMutation from "swr/mutation";
+import useSWR from "swr";
+import { routeFilter } from "@/lib/utils";
 
 type createBlogArg = {
   arg: {
@@ -38,6 +38,7 @@ export const useUpdateBlog = () =>
 export const useGetBlogs = <ApiResponse>(params?: {
   page: number;
   limit: number;
+  search?: string;
   category?: string;
 }): SWRResponse<ApiResponse, any> => {
   return useSWR(`/api/blogs?${routeFilter(params)}`);
