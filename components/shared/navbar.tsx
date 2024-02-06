@@ -1,19 +1,17 @@
+"use client";
+import { User } from "@/types/users";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useState } from "react";
 
-'use client';
-import { User } from '@/types/users';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-
-import HamburgerMenu from './hamburgerMenu';
-import { useSession } from 'next-auth/react';
-import AuthLinks from './authLinks';
+import HamburgerMenu from "./hamburgerMenu";
+import { useSession } from "next-auth/react";
+import AuthLinks from "./authLinks";
 import SearchBrowse from "./searchBrowse";
 type NavbarProps = {};
 const Navbar: React.FC<NavbarProps> = () => {
   const { data } = useSession();
   const [openSearch, setOpenSearch] = useState<boolean>(false);
-
 
   return (
     <nav className="flex justify-between items-center h-[100px]">
@@ -51,7 +49,6 @@ const Navbar: React.FC<NavbarProps> = () => {
         )}
 
         {/* <AuthLinks user={user} /> */}
-
       </div>
       <HamburgerMenu />
     </nav>
