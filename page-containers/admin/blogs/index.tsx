@@ -65,7 +65,7 @@ const AdminBlogs: React.FC = () => {
   };
   const columns: TableProps<BlogPost>['columns'] = [
     {
-      title: 'Id',
+      title: 'No',
       key: 'id',
       render: (_, c: BlogPost, index: number) => {
         return <span>{(currentPage - 1) * limit + index + 1}</span>;

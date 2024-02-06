@@ -7,24 +7,13 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
 
-type AuthLinksProps = {
-  user: User;
-};
-
-const AuthLinks: React.FC<AuthLinksProps> = ({ user }) => {
+const AuthLinks = () => {
   const { status } = useSession();
   return (
     <>
-      {status === 'unauthenticated' ? (
-        <Link href="/login">Login</Link>
-      ) : (
+      {status === 'authenticated' && (
         <>
-          <Link href="/admin">
-            <Avatar>
-              <AvatarImage src={user?.image as string} />
-              <AvatarFallback>{user?.name[0] as string}</AvatarFallback>
-            </Avatar>
-          </Link>
+          <Link href="/admin">Dashboard</Link>
         </>
       )}
     </>

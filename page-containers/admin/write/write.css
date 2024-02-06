@@ -1,6 +1,4 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
  
 @layer base {
   :root {
@@ -68,7 +66,9 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
-  
+}
+ 
+@layer base {
   * {
     @apply border-border box-border m-0 p-0;
   }
@@ -87,8 +87,10 @@
   .desc-container > h2 {
       @apply font-bold text-base md:text-lg lg:text-xl;
   }
+  
 }
- 
+
+
 .wrapper {
   max-width: 1536px;
   margin: 0 auto;
@@ -171,7 +173,7 @@
 }
 
 .ql-container {
-  font-size: 20px !important;
+  font-size: 18px !important;
 }
 
 .ql-editor {
@@ -191,6 +193,6 @@
 
 @media screen and (min-width: 768px) {
   .ql-container {
-    font-size: 24px !important;
+    font-size: 20px !important;
   }
 }

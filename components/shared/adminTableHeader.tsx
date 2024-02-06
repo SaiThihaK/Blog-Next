@@ -9,7 +9,7 @@ interface Props {
 const AdminTableHeader: React.FC<Props> = ({ title, btnText, onBtnClick }) => {
   return (
     <div className="w-full flex items-center justify-between">
-      <h3 className="font-semibold">{title}</h3>
+      <h3 className="font-semibold my-0">{title}</h3>
       <Button type="default" onClick={onBtnClick}>
         {btnText ?? 'Create'}
       </Button>

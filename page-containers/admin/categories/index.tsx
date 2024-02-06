@@ -106,11 +106,6 @@ const AdminCategories = () => {
       ),
     },
     {
-      title: 'Featured',
-      key: 'featured',
-      render: (_) => <Switch defaultChecked />,
-    },
-    {
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',

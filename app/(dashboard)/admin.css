@@ -1,7 +1,7 @@
 @tailwind components;
 @tailwind utilities;
 
-flex-2 {
+  .flex-2 {
     flex: 2;
   }
   .flex-3 {
@@ -24,4 +24,12 @@ flex-2 {
   }
   .flex-8 {
     flex: 8;
+  }
+
+  .ant-table-cell  .ant-switch {
+    background-color: rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .ant-table-cell .ant-switch.ant-switch-checked {
+    background-color: rgb(22, 119, 255) !important;
   }
