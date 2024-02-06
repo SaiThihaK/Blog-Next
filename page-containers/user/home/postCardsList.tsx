@@ -1,10 +1,11 @@
-'use client';
-import React, { useState } from 'react';
-import { useGetBlogs } from '@/services/blog';
-import { GetAllBlogPostsResponse } from '@/types/posts';
-import { BlogListsSkeleton } from '@/components/shared/skeletons';
-import PostCard from '@/components/shared/blogCard';
-import PaginationButtons from '@/components/shared/paginationButtons';
+
+"use client";
+import React, { useState } from "react";
+import BlogCard from "../../../components/shared/blogCard";
+import PaginationButtons from "../../../components/shared/paginationButtons";
+import { useGetBlogs } from "@/services/blog";
+import { GetAllBlogPostsResponse } from "@/types/posts";
+import { BlogListsSkeleton } from "@/components/shared/skeletons";
 
 const limit = 3;
 
@@ -36,7 +37,9 @@ const PostCardsList = () => {
           <BlogListsSkeleton />
         ) : (
           data?.data &&
-          data.data.length > 0 &&
+
+          data?.data.length > 0 &&
+
           data?.data.map((post) => {
             return (
               <PostCard
