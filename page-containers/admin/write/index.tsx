@@ -1,4 +1,5 @@
 'use client';
+import '../../../app/globals.css';
 import React, { useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from 'lucide-react';
@@ -47,8 +48,10 @@ const quillModules = {
 };
 
 const PostWrite: React.FC = () => {
-  const { trigger: createBlog } = useCreateBlogs();
-  const { data, isLoading, error } = useGetCategory<GetAllCateogriesResponse>();
+  const { trigger: createBlog, isMutating } = useCreateBlogs();
+  const [isCoverImageUploading, setIsCoverImageUploading] =
+    useState<boolean>(false);
+  const { data, isLoading } = useGetCategory<GetAllCateogriesResponse>();
   const { edgestore } = useEdgeStore();
   const [showAddBtns, setShowAddBtns] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
@@ -74,12 +77,12 @@ const PostWrite: React.FC = () => {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
           quillObj.editor.insertEmbed(
-            range.index ?? 0,
+            range?.index ?? 0,
             'image',
-            e.target?.result
+            e?.target?.result
           ); // Replace with secure image url from api response
           quillObj.editor.insertEmbed(
-            range.index + 1,
+            range?.index + 1,
             'block',
             '<p><br /></p>'
           );
@@ -90,12 +93,16 @@ const PostWrite: React.FC = () => {
   };
 
   const postBlog = async () => {
+    setIsCoverImageUploading(true);
     if (imageFile) {
       const res = await edgestore.publicFiles.upload({
         file: imageFile,
         onProgressChange: (progress) => {
           // you can use this to show a progress bar
           console.log(progress);
+          if (progress === 100) {
+            setIsCoverImageUploading(false);
+          }
         },
       });
 
@@ -118,6 +125,11 @@ const PostWrite: React.FC = () => {
 
   return (
     <div className="flex w-full flex-col flex-wrap gap-y-5 px-8 relative">
+      {(isMutating || isCoverImageUploading) && (
+        <div className="absolute inset-0 bg-slate-600/60 flex items-center justify-center">
+          Loading...
+        </div>
+      )}
       <div className="flex items-center flex-wrap">
         <Input
           value={title}
@@ -133,7 +145,7 @@ const PostWrite: React.FC = () => {
       <div className="w-full flex px-2 relative">
         <SingleImageDropzone
           className="md:mx-0 mx-auto"
-          width={'100%'}
+          width={500}
           height={250}
           value={imageFile}
           onChange={(file) => {
@@ -205,7 +217,7 @@ const PostWrite: React.FC = () => {
           </div>
         )}
       </div>
-      <div className="flex items-start gap-[10px] -mt-2 min-h-[600px] relative">
+      <div className="flex items-start gap-[10px] -mt-2 min-h-[400px] relative">
         <ReactQuill
           forwardedRef={quillRef}
           className="w-full"

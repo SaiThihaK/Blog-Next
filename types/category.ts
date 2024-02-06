@@ -4,7 +4,8 @@ export interface Category {
   id: string;
   createdAt: string;
   category: string;
-  blog: Post[];
+  color: string;
+  blog?: Post[];
 }
 
 export interface GetAllCateogriesResponse {

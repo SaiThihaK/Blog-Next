@@ -1,29 +1,47 @@
-"use client";
-
-import React from "react";
+'use client';
+import './admin.css';
+import React, { useTransition } from 'react';
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
-import { useSession } from "next-auth/react";
+} from '@ant-design/icons';
+import { Avatar, Dropdown, Layout, Menu, MenuProps, theme } from 'antd';
+import { signOut, useSession } from 'next-auth/react';
+import { usePathname, useRouter } from 'next/navigation';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const items = [
   {
     icon: UserOutlined,
-    label: "Home",
+    label: 'Home',
+    target: '/admin',
   },
-  { icon: VideoCameraOutlined, label: "Blog" },
-  { icon: UploadOutlined, label: "Category" },
-  { icon: UserOutlined, label: "Log out" },
+  { icon: VideoCameraOutlined, label: 'Blogs', target: '/admin/blogs' },
+  { icon: UploadOutlined, label: 'Categories', target: '/admin/categories' },
+  { icon: UserOutlined, label: 'Social Links', target: '/admin/socialLinks' },
 ].map((el, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(el.icon),
+  key: `${el.target}`,
+  // icon: <FloatButton icon={<UserOutlined />} />,
   label: el.label,
+  target: el.target,
 }));
+
+const dropDownItems: MenuProps['items'] = [
+  {
+    key: '1',
+    label: <div>Edit Profile</div>,
+  },
+  {
+    key: '2',
+    label: (
+      <div role="button" onClick={() => signOut()}>
+        Logout
+      </div>
+    ),
+  },
+];
 
 type RootLayoutProps = {
   children: React.ReactNode;
@@ -32,46 +50,62 @@ const Rootlayout: React.FC<RootLayoutProps> = ({ children }) => {
   const {
     token: { borderRadiusLG },
   } = theme.useToken();
-  const { status } = useSession();
+  const { status, data } = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [pending, startTransition] = useTransition();
+
+  const handleMenuClick = ({ key }: Record<string, any>) => {
+    const targetMenu = items.find((item) => item.key === key);
+    if (targetMenu) {
+      startTransition(() => {
+        router.push(targetMenu.target);
+      });
+    }
+  };
 
   return (
     <>
-      {status === "authenticated" ? (
+      {status === 'authenticated' ? (
         <Layout>
-          <Sider
-            className="bg-white h-full"
-            breakpoint="lg"
-            collapsedWidth="0"
-            // onBreakpoint={(broken) => {}}
-            // onCollapse={(collapsed, type) => {}}
-          >
-            <Header style={{ padding: 0 }} className="bg-white" />
-            <div className="demo-logo-vertical" />
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={["1"]}
-              defaultActiveFirst={true}
-              items={items}
-            />
-          </Sider>
+          <Header className="px-8 bg-white mb-[20px] flex items-center justify-between">
+            <h1>The Dev</h1>
+            <Dropdown menu={{ items: dropDownItems }}>
+              <Avatar>{data.user?.name}</Avatar>
+            </Dropdown>
+          </Header>
           <Layout>
-            <Header className="bg-white" />
-            <Content className="m-9 lg:m-4">
+            <Sider
+              className="bg-white h-full relative"
+              breakpoint="lg"
+              collapsedWidth="0"
+            >
+              <Menu
+                mode="inline"
+                defaultSelectedKeys={['1']}
+                defaultActiveFirst={true}
+                selectedKeys={[pathname]}
+                items={items}
+                className="min-h-[88dvh]"
+                onClick={handleMenuClick}
+                disabled={pending}
+              />
+            </Sider>
+            <Content className="ml-[14px] overflow-y-scroll">
               <div
-                className="h-[80dvh] overflow-y-scroll w-full"
-
                 style={{
                   borderRadius: borderRadiusLG,
                 }}
+                className="h-full w-full"
               >
                 {children}
               </div>
             </Content>
-            <Footer style={{ textAlign: "center" }}>
-              <strong>THE DEV</strong> ©{new Date().getFullYear()} Created by
-              Revenuelab
-            </Footer>
           </Layout>
+          <Footer className="text-center bg-white py-4">
+            <strong>THE DEV</strong> ©{new Date().getFullYear()} Created by
+            Revenuelab
+          </Footer>
         </Layout>
       ) : (
         <>{children}</>

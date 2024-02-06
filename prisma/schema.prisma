@@ -75,6 +75,7 @@ model Category {
   id        String   @id @default(cuid()) @map("_id")
   createdAt DateTime @default(now())
   category  String   @unique
+  color     String   @default("#EEDD82")
   blog      Blog[]
 }
 

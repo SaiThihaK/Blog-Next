@@ -1,9 +1,9 @@
-import PostWrite from '@/page-containers/admin/write';
+import SocialLinksPage from '@/page-containers/admin/socialLinks';
 import { NextPage } from 'next';
 import React from 'react';
 
 const Page: NextPage = () => {
-  return <PostWrite />;
+  return <SocialLinksPage />;
 };
 
 export default Page;

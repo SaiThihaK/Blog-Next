@@ -1,5 +1,5 @@
-"use client";
-import { Button } from "@/components/ui/button";
+'use client';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -7,22 +7,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import React, { useTransition } from "react";
-import { useForm } from "react-hook-form";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import React, { useTransition } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { saveUserInfo } from '@/lib/utils';
 
 const loginFormSchema = z.object({
   // name: z.string(),
   email: z.string().email(),
   password: z
     .string()
-    .min(8, { message: "password should be minimum 8 characters" }),
+    .min(8, { message: 'password should be minimum 8 characters' }),
 });
 
 const Login: React.FC = () => {
@@ -42,16 +43,16 @@ const Login: React.FC = () => {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
   const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
     startTransition(async () => {
-      const user = await signIn("credentials", values);
+      const user = await signIn('credentials', values);
       if (user) {
-        router.push("/admin");
+        router.push('/admin');
       }
     });
   };

@@ -1,9 +1,9 @@
-import PostWrite from '@/page-containers/admin/write';
+import AdminCategories from '@/page-containers/admin/categories';
 import { NextPage } from 'next';
 import React from 'react';
 
 const Page: NextPage = () => {
-  return <PostWrite />;
+  return <AdminCategories />;
 };
 
 export default Page;
