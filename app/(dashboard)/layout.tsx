@@ -6,15 +6,7 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import {
-  Avatar,
-  Dropdown,
-  FloatButton,
-  Layout,
-  Menu,
-  MenuProps,
-  theme,
-} from 'antd';
+import { Avatar, Dropdown, Layout, Menu, MenuProps, theme } from 'antd';
 import { signOut, useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -28,6 +20,7 @@ const items = [
   },
   { icon: VideoCameraOutlined, label: 'Blogs', target: '/admin/blogs' },
   { icon: UploadOutlined, label: 'Categories', target: '/admin/categories' },
+  { icon: UserOutlined, label: 'Social Links', target: '/admin/socialLinks' },
 ].map((el, index) => ({
   key: `${el.target}`,
   // icon: <FloatButton icon={<UserOutlined />} />,

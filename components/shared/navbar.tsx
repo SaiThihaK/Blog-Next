@@ -1,12 +1,16 @@
-import { User } from "@/types/users";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+'use client';
+import { User } from '@/types/users';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-import HamburgerMenu from "./hamburgerMenu";
+import HamburgerMenu from './hamburgerMenu';
+import { useSession } from 'next-auth/react';
+import AuthLinks from './authLinks';
 
 type NavbarProps = {};
 const Navbar: React.FC<NavbarProps> = () => {
+  const { data } = useSession();
   return (
     <nav className="flex justify-between items-center h-[100px]">
       <div className="gap-3 flex-1 hidden lg:flex">
@@ -27,7 +31,7 @@ const Navbar: React.FC<NavbarProps> = () => {
         <Link href="/">Home</Link>
         <Link href="/blogs">Blogs</Link>
         <Link href="/">Contact</Link>
-        {/* <AuthLinks user={user} /> */}
+        <AuthLinks user={data?.user} />
       </div>
       <HamburgerMenu />
     </nav>
