@@ -4,8 +4,12 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: white;
+    --soft-background: #f0f0f0;
     --foreground: 222.2 84% 4.9%;
+
+    --text-color: black;
+    --soft-text-color: #334155;
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -68,9 +72,129 @@
  
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border box-border m-0 p-0;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden max-w-[100vw];
+  }
+  a {
+    @apply text-inherit;
+  }
+  h1 {
+    @apply font-bold text-xl lg:text-2xl;
+  }
+  .main-container {
+    @apply min-h-screen bg-background text-textColor;
+  }
+  .desc-container > h2 {
+      @apply font-bold text-base md:text-lg lg:text-xl;
+  }
+  
+}
+
+
+.wrapper {
+  max-width: 1536px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media screen and (max-width: 1636px) {
+  .wrapper {
+    max-width: 1536px;
+  }
+}
+
+@media screen and (max-width: 1536px) {
+  .wrapper {
+    max-width: 1366px;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .wrapper {
+    max-width: 1024px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    max-width: 768px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .wrapper {
+    max-width: 640px;
+  }
+}
+@media screen and (max-width: 640px) {
+  .wrapper {
+    max-width: 475px;
+    padding: 0 16px;
+  }
+}
+
+.flex-2 {
+  flex: 2;
+}
+.flex-3 {
+  flex: 3;
+}
+.flex-3 {
+  flex: 3;
+}
+.flex-4 {
+  flex: 4;
+}
+.flex-5 {
+  flex: 5;
+}
+.flex-6 {
+  flex: 6;
+}
+.flex-7 {
+  flex: 7;
+}
+.flex-8 {
+  flex: 8;
+}
+
+.auth-btn div div {
+    font-size: 14px !important;
+    width: auto !important;
+}
+
+.auth-btn div {
+    justify-content: center !important;
+    gap: 4px !important;
+}
+
+.auth-btn {
+    height: 44px !important;
+}
+
+.ql-container {
+  font-size: 20px !important;
+}
+
+.ql-editor {
+  padding-left: 0 !important;
+  padding-top: 0 !important;
+}
+
+.ql-editor.ql-blank {
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+}
+
+.quill > .ql-container > .ql-editor.ql-blank::before {
+  color: #b3b3b1;
+  left: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .ql-container {
+    font-size: 24px !important;
   }
 }
