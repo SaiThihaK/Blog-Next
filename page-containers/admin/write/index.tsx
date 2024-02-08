@@ -1,17 +1,17 @@
-"use client";
-import "../../../app/globals.css";
-import React, { useRef, useState } from "react";
-import dynamic from "next/dynamic";
-import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ReactQuillProps, Quill } from "react-quill";
-import ImageResize from "quill-image-resize-module-react";
-import { Input } from "@/components/ui/input";
-import { useCreateBlogs } from "@/services/blog";
-import { SingleImageDropzone } from "@/components/ui/imageDropZone";
-import { useEdgeStore } from "@/lib/edgestore";
-import "react-quill/dist/quill.bubble.css";
+'use client';
+import './write.css';
+import React, { useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { Plus, Image as ImageIcon, Video, ArrowUpFromLine } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { ReactQuillProps, Quill } from 'react-quill';
+import ImageResize from 'quill-image-resize-module-react';
+import { Input } from '@/components/ui/input';
+import { useCreateBlogs } from '@/services/blog';
+import { SingleImageDropzone } from '@/components/ui/imageDropZone';
+import { useEdgeStore } from '@/lib/edgestore';
+import 'react-quill/dist/quill.bubble.css';
 
 import {
   Select,
@@ -19,15 +19,15 @@ import {
   SelectValue,
   SelectItem,
   SelectContent,
-} from "@/components/ui/select";
-import { useGetCategory } from "@/services/category";
-import { GetAllCateogriesResponse } from "@/types/category";
+} from '@/components/ui/select';
+import { useGetCategory } from '@/services/category';
+import { GetAllCateogriesResponse } from '@/types/category';
 
-Quill.register("modules/imageResize", ImageResize);
+Quill.register('modules/imageResize', ImageResize);
 
 const ReactQuill = dynamic(
   async () => {
-    const { default: RQ } = await import("react-quill");
+    const { default: RQ } = await import('react-quill');
 
     const QuillComponent = ({
       forwardedRef,
@@ -42,8 +42,8 @@ const ReactQuill = dynamic(
 
 const quillModules = {
   imageResize: {
-    parchment: Quill.import("parchment"),
-    modules: ["Resize", "DisplaySize"],
+    parchment: Quill.import('parchment'),
+    modules: ['Resize', 'DisplaySize'],
   },
 };
 
@@ -54,16 +54,16 @@ const PostWrite: React.FC = () => {
   const { data, isLoading } = useGetCategory<GetAllCateogriesResponse>();
   const { edgestore } = useEdgeStore();
   const [showAddBtns, setShowAddBtns] = useState<boolean>(false);
-  const [text, setText] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [text, setText] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const quillRef = useRef<any>();
-  const [title, setTitle] = useState<string>("");
+  const [title, setTitle] = useState<string>('');
   const [imageFile, setImageFile] = useState<File>();
 
   const handleAddImageQuill = async () => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
     input.click();
 
     input.onchange = async () => {
@@ -78,13 +78,13 @@ const PostWrite: React.FC = () => {
         fileReader.onload = (e) => {
           quillObj.editor.insertEmbed(
             range?.index ?? 0,
-            "image",
+            'image',
             e?.target?.result
           ); // Replace with secure image url from api response
           quillObj.editor.insertEmbed(
             range?.index + 1,
-            "block",
-            "<p><br /></p>"
+            'block',
+            '<p><br /></p>'
           );
         };
         fileReader.readAsDataURL(file);
@@ -108,18 +108,11 @@ const PostWrite: React.FC = () => {
 
       await createBlog({
         title,
-        email: "email@email.com",
+        email: 'email@email.com',
         desc: text,
         image: res.url,
         categoryId: selectedCategory,
       });
-      console.log(
-        "write post submit === ",
-        text,
-        selectedCategory,
-        title,
-        res.url
-      );
     }
   };
 
@@ -136,7 +129,7 @@ const PostWrite: React.FC = () => {
           onChange={(e) => setTitle(e.target.value)}
           type="text"
           placeholder="Title"
-          className="py-[36px] flex-1 w-full text-3xl md:text-5xl placeholder:text-[#b3b3b1] bg-transparent border-0 outline-0 ring-0 focus:outline-none focus:ring-0 font-bold"
+          className="py-[36px] flex-1 w-full text-3xl md:text-4xl placeholder:text-[#b3b3b1] bg-transparent border-0 outline-0 ring-0 focus:outline-none focus:ring-0 font-bold"
         />
         <Button variant="success" onClick={() => postBlog()}>
           Publish
@@ -157,7 +150,7 @@ const PostWrite: React.FC = () => {
         <Select value={selectedCategory} onValueChange={setSelectedCategory}>
           <div className="flex flex-col gap-1">
             <label>Category </label>
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger className="w-[200px] !bg-white">
               <SelectValue
                 placeholder="Choose your category"
                 className="capitalize"
@@ -191,8 +184,8 @@ const PostWrite: React.FC = () => {
             width={20}
             height={20}
             className={cn(
-              "transition-all",
-              showAddBtns ? "rotate-45" : "rotate-0"
+              'transition-all',
+              showAddBtns ? 'rotate-45' : 'rotate-0'
             )}
           />
         </button>

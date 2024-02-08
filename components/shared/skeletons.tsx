@@ -35,3 +35,14 @@ export const BlogListsSkeleton = () => {
     </>
   );
 };
+
+export const SocialLinksSkelton = () => {
+  return (
+    <div className="flex items-center gap-3">
+      <Skeleton className="w-[30px] h-[30px] rounded-full" />
+      <Skeleton className="w-[30px] h-[30px] rounded-full" />
+      <Skeleton className="w-[30px] h-[30px] rounded-full" />
+      <Skeleton className="w-[30px] h-[30px] rounded-full" />
+    </div>
+  );
+};
